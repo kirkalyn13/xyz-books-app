@@ -4,17 +4,17 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/kirkalyn13/xyz-books-app/cmd/routes"
+	"github.com/kirkalyn13/xyz-books-app/pkg/db"
 )
 
 func main() {
-	log.Println("STARTING XYZ Books Server...")
+	log.Println("Starting XYZ Books Server...")
+
+	db.LoadDatabase()
 
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	routes.RegisterRoutes(r)
 
 	r.Run()
 }

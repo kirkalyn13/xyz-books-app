@@ -1,13 +1,13 @@
 package model
 
 type Book struct {
-	ID              int       `json:"id"`
-	Title           string    `json:"title"`
-	ISBN13          string    `json:"isbn13"`
-	ISBN10          string    `json:"isbn10"`
-	ListPrice       float64   `json:"list_price"`
-	PublicationYear int       `json:"publication_year"`
-	ImageURL        string    `json:"image_url"`
-	Edition         string    `json:"edition"`
-	Publisher       Publisher `json:"publisher"`
+	ID              int       `gorm:"column:id;" json:",omitempty"`
+	Title           string    `gorm:"column:title;" json:",omitempty"`
+	ISBN13          string    `gorm:"column:isbn13;" json:",omitempty"`
+	ISBN10          string    `gorm:"column:isbn10;" json:",omitempty"`
+	ListPrice       float64   `gorm:"column:list_price;" json:",omitempty"`
+	PublicationYear int       `gorm:"column:publication_year;" json:",omitempty"`
+	ImageURL        string    `gorm:"column:image_url;" json:",omitempty"`
+	Edition         string    `gorm:"column:edition;" json:",omitempty"`
+	Publisher       Publisher `gorm:"column:publisher;" json:",omitempty"`
 }

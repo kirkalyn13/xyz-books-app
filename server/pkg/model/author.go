@@ -1,9 +1,9 @@
 package model
 
 type Author struct {
-	ID         int    `json:"id"`
-	FirstName  string `json:"first_name"`
-	LastName   string `json:"last_name"`
-	MiddleName string `json:"middle_name"`
-	Books      []Book `json:"books"`
+	ID         int    `gorm:"column:id;" json:",omitempty"`
+	FirstName  string `gorm:"column:first_name;" json:",omitempty"`
+	LastName   string `gorm:"column:last_name;" json:",omitempty"`
+	MiddleName string `gorm:"column:middle_name;" json:",omitempty"`
+	Books      []Book `gorm:"column:books;" json:",omitempty"`
 }
