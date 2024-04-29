@@ -1,7 +1,7 @@
 package model
 
 type Publisher struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Books []Book `josn:"books"`
+	ID    int    `gorm:"column:id;" json:",omitempty"`
+	Name  string `gorm:"column:name;" json:",omitempty"`
+	Books []Book `gorm:"column:books;" json:",omitempty"`
 }
