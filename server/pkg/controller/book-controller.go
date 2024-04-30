@@ -10,7 +10,7 @@ import (
 	"github.com/kirkalyn13/xyz-books-app/pkg/util"
 )
 
-// GetBooks is the controller to fetch the list of books
+// GetBooks is the controller to fetch the list of Books
 func GetBooks(c *gin.Context) {
 	results := service.GetBooks()
 
@@ -19,7 +19,7 @@ func GetBooks(c *gin.Context) {
 	})
 }
 
-// GetBooksByISBN13 is the controller to fetch a book based on a given ISBN13
+// GetBooksByISBN13 is the controller to fetch a Book based on a given ISBN13
 func GetBookByISBN13(c *gin.Context) {
 	isbn13 := c.Param("isbn13")
 
@@ -35,7 +35,7 @@ func GetBookByISBN13(c *gin.Context) {
 	})
 }
 
-// AddBook is the controller to add a new book entity
+// AddBook is the controller to add a new Book entity
 func AddBook(c *gin.Context) {
 	var book model.Book
 	err := c.Bind(&book)
@@ -57,7 +57,7 @@ func AddBook(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"book": result})
 }
 
-// EditBook is the controller to edit a book entity
+// EditBook is the controller to edit a Book entity
 func EditBook(c *gin.Context) {
 	var book model.Book
 	isbn13 := c.Param("isbn13")
@@ -83,7 +83,7 @@ func EditBook(c *gin.Context) {
 
 }
 
-// DeleteBook is the controller to delete a book entity
+// DeleteBook is the controller to delete a Book entity
 func DeleteBook(c *gin.Context) {
 	isbn13 := c.Param("isbn13")
 
