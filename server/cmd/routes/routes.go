@@ -8,5 +8,16 @@ import (
 // RegisterRoutes registers the controllers defined
 func RegisterRoutes(r *gin.Engine) {
 	// GET Requests
-	r.GET("/book", controller.GetBook)
+	r.GET("/books", controller.GetBooks)
+	r.GET("/books/:isbn13", controller.GetBookByISBN13)
+
+	// POST Requests
+	r.POST("/books", controller.AddBook)
+
+	// PUT Requests
+	r.PUT("/books/:isbn13", controller.EditBook)
+
+	// DELETE Requests
+	r.DELETE("/books/:isbn13", controller.DeleteBook)
+
 }
