@@ -1,12 +1,30 @@
-import React from 'react'
+import Header from './components/Header/Header'
+import Footer from './components/Footer/Footer'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom"
+import BookList from './components/BookList/BookList'
+import Book from './components/Book/Book';
+
+const router = createBrowserRouter([
+  {
+      path: "/",
+      element: <BookList />,
+  },
+  {
+      path: "/books/:isbn13",
+      element: <Book />,
+  },
+]);
 
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">
-        XYZ Books
-      </h1>
-    </>
+    <main>
+      <Header />
+        <RouterProvider router={router} />
+      <Footer />
+    </main>
   )
 }
 
