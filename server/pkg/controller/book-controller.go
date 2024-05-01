@@ -12,7 +12,13 @@ import (
 
 // GetBooks is the controller to fetch the list of Books
 func GetBooks(c *gin.Context) {
-	results := service.GetBooks()
+	results, err := service.GetBooks()
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"books": results,
@@ -28,7 +34,13 @@ func GetBookByISBN13(c *gin.Context) {
 		return
 	}
 
-	result := service.GetBookByISBN13(isbn13)
+	result, err := service.GetBookByISBN13(isbn13)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"book": result,
@@ -75,7 +87,13 @@ func EditBook(c *gin.Context) {
 		return
 	}
 
-	result := service.EditBook(book, isbn13)
+	result, err := service.EditBook(book, isbn13)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"book": result,
@@ -92,7 +110,13 @@ func DeleteBook(c *gin.Context) {
 		return
 	}
 
-	service.DeleteBook(isbn13)
+	err := service.DeleteBook(isbn13)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.Status(http.StatusNoContent)
 }

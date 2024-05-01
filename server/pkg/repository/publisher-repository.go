@@ -6,42 +6,60 @@ import (
 )
 
 // GetPublishers fetches the list of Publishers from the database
-func GetPublishers() []model.Publisher {
-	var Publishers []model.Publisher
+func GetPublishers() ([]model.Publisher, error) {
+	var publishers []model.Publisher
 
-	db.DB.Unscoped().Find(&Publishers)
+	result := db.DB.Preload("Books").Find(&publishers)
 
-	return Publishers
+	if result.Error != nil {
+		return []model.Publisher{}, result.Error
+	}
+
+	return publishers, nil
 }
 
 // GetPublishersByID fetches a Publisher based on a given ID from the database
-func GetPublisherByID(id string) model.Publisher {
-	var Publisher model.Publisher
+func GetPublisherByID(id string) (model.Publisher, error) {
+	var publisher model.Publisher
 
-	db.DB.Unscoped().Find(&Publisher, id)
-
-	return Publisher
-}
-
-// AddPublisher adds a new Publisher entity from the database
-func AddPublisher(Publisher model.Publisher) (model.Publisher, error) {
-	result := db.DB.Unscoped().Create(&Publisher)
+	result := db.DB.Preload("Books").Find(&publisher, id)
 
 	if result.Error != nil {
 		return model.Publisher{}, result.Error
 	}
 
-	return Publisher, nil
+	return publisher, nil
+}
+
+// AddPublisher adds a new Publisher entity from the database
+func AddPublisher(publisher model.Publisher) (model.Publisher, error) {
+	result := db.DB.Unscoped().Create(&publisher)
+
+	if result.Error != nil {
+		return model.Publisher{}, result.Error
+	}
+
+	return publisher, nil
 }
 
 // EditPublisher edits a Publisher entity from the database
-func EditPublisher(Publisher model.Publisher, id string) model.Publisher {
-	db.DB.First(&Publisher, id)
+func EditPublisher(publisher model.Publisher, id string) (model.Publisher, error) {
+	result := db.DB.First(&publisher, id)
 
-	return Publisher
+	if result.Error != nil {
+		return model.Publisher{}, result.Error
+	}
+
+	return publisher, nil
 }
 
 // DeletePublisher deletes a Publisher entity from the database
-func DeletePublisher(id string) {
-	db.DB.Delete(&model.Publisher{}, id)
+func DeletePublisher(id string) error {
+	result := db.DB.Where("id = ?", id).Delete(&model.Publisher{}, id)
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }

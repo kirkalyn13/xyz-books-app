@@ -11,7 +11,13 @@ import (
 
 // GetPublishers is the controller to fetch the list of Publishers
 func GetPublishers(c *gin.Context) {
-	results := service.GetPublishers()
+	results, err := service.GetPublishers()
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"publishers": results,
@@ -22,7 +28,13 @@ func GetPublishers(c *gin.Context) {
 func GetPublisherByID(c *gin.Context) {
 	id := c.Param("id")
 
-	result := service.GetPublisherByID(id)
+	result, err := service.GetPublisherByID(id)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"publisher": result,
@@ -31,8 +43,8 @@ func GetPublisherByID(c *gin.Context) {
 
 // AddPublisher is the controller to add a new Publisher entity
 func AddPublisher(c *gin.Context) {
-	var Publisher model.Publisher
-	err := c.Bind(&Publisher)
+	var publisher model.Publisher
+	err := c.Bind(&publisher)
 
 	if err != nil {
 		log.Fatal(err)
@@ -40,7 +52,7 @@ func AddPublisher(c *gin.Context) {
 		return
 	}
 
-	result, err := service.AddPublisher(Publisher)
+	result, err := service.AddPublisher(publisher)
 
 	if err != nil {
 		log.Fatal(err)
@@ -53,10 +65,10 @@ func AddPublisher(c *gin.Context) {
 
 // EditPublisher is the controller to edit a Publisher entity
 func EditPublisher(c *gin.Context) {
-	var Publisher model.Publisher
+	var publisher model.Publisher
 	id := c.Param("id")
 
-	err := c.Bind(&Publisher)
+	err := c.Bind(&publisher)
 
 	if err != nil {
 		log.Fatal(err)
@@ -64,7 +76,13 @@ func EditPublisher(c *gin.Context) {
 		return
 	}
 
-	result := service.EditPublisher(Publisher, id)
+	result, err := service.EditPublisher(publisher, id)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"publisher": result,
@@ -76,7 +94,13 @@ func EditPublisher(c *gin.Context) {
 func DeletePublisher(c *gin.Context) {
 	id := c.Param("id")
 
-	service.DeletePublisher(id)
+	err := service.DeletePublisher(id)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.Status(http.StatusNoContent)
 }

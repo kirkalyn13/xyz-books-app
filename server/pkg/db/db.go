@@ -20,7 +20,7 @@ func LoadDatabase() error {
 		return err
 	}
 
-	// CreateTables(db, Tables)
+	CreateTables(db, Tables)
 	log.Println("Successfully Loaded Database.")
 
 	DB = db

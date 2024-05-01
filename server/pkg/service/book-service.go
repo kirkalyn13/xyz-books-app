@@ -6,13 +6,25 @@ import (
 )
 
 // GetBooks fetches the list of Books
-func GetBooks() []model.Book {
-	return repository.GetBooks()
+func GetBooks() ([]model.Book, error) {
+	books, err := repository.GetBooks()
+
+	if err != nil {
+		return []model.Book{}, err
+	}
+
+	return books, nil
 }
 
 // GetBooksByISBN13 fetches a Book based on a given ISBN13
-func GetBookByISBN13(isbn13 string) model.Book {
-	return repository.GetBookByISBN13(isbn13)
+func GetBookByISBN13(isbn13 string) (model.Book, error) {
+	book, err := repository.GetBookByISBN13(isbn13)
+
+	if err != nil {
+		return model.Book{}, err
+	}
+
+	return book, nil
 }
 
 // AddBook adds a new Book entity
@@ -27,13 +39,23 @@ func AddBook(book model.Book) (model.Book, error) {
 }
 
 // EditBook edits a Book entity
-func EditBook(book model.Book, isbn13 string) model.Book {
-	result := repository.EditBook(book, isbn13)
+func EditBook(book model.Book, isbn13 string) (model.Book, error) {
+	book, err := repository.EditBook(book, isbn13)
 
-	return result
+	if err != nil {
+		return model.Book{}, err
+	}
+
+	return book, nil
 }
 
 // DeleteBook deletes a Book entity
-func DeleteBook(isbn13 string) {
-	repository.DeleteBook(isbn13)
+func DeleteBook(isbn13 string) error {
+	err := repository.DeleteBook(isbn13)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -6,18 +6,30 @@ import (
 )
 
 // GetPublishers fetches the list of Publishers
-func GetPublishers() []model.Publisher {
-	return repository.GetPublishers()
+func GetPublishers() ([]model.Publisher, error) {
+	publishers, err := repository.GetPublishers()
+
+	if err != nil {
+		return []model.Publisher{}, err
+	}
+
+	return publishers, nil
 }
 
 // GetPublishersByID fetches a Publisher based on a given ID
-func GetPublisherByID(id string) model.Publisher {
-	return repository.GetPublisherByID(id)
+func GetPublisherByID(id string) (model.Publisher, error) {
+	publisher, err := repository.GetPublisherByID(id)
+
+	if err != nil {
+		return model.Publisher{}, err
+	}
+
+	return publisher, nil
 }
 
 // AddPublisher adds a new Publisher entity
-func AddPublisher(Publisher model.Publisher) (model.Publisher, error) {
-	result, err := repository.AddPublisher(Publisher)
+func AddPublisher(publisher model.Publisher) (model.Publisher, error) {
+	result, err := repository.AddPublisher(publisher)
 
 	if err != nil {
 		return model.Publisher{}, err
@@ -27,13 +39,23 @@ func AddPublisher(Publisher model.Publisher) (model.Publisher, error) {
 }
 
 // EditPublisher edits a Publisher entity
-func EditPublisher(Publisher model.Publisher, id string) model.Publisher {
-	result := repository.EditPublisher(Publisher, id)
+func EditPublisher(publisher model.Publisher, id string) (model.Publisher, error) {
+	result, err := repository.EditPublisher(publisher, id)
 
-	return result
+	if err != nil {
+		return model.Publisher{}, err
+	}
+
+	return result, nil
 }
 
 // DeletePublisher deletes a Publisher entity
-func DeletePublisher(id string) {
-	repository.DeletePublisher(id)
+func DeletePublisher(id string) error {
+	err := repository.DeletePublisher(id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

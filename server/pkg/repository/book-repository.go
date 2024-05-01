@@ -6,21 +6,29 @@ import (
 )
 
 // GetBooks fetches the list of Books from the database
-func GetBooks() []model.Book {
+func GetBooks() ([]model.Book, error) {
 	var books []model.Book
 
-	db.DB.Unscoped().Find(&books)
+	result := db.DB.Preload("Publishers").Find(&books)
 
-	return books
+	if result.Error != nil {
+		return []model.Book{}, result.Error
+	}
+
+	return books, nil
 }
 
 // GetBooksByISBN13 fetches a Book based on a given ISBN13 from the database
-func GetBookByISBN13(isbn13 string) model.Book {
+func GetBookByISBN13(isbn13 string) (model.Book, error) {
 	var book model.Book
 
-	db.DB.Unscoped().Find(&book, isbn13)
+	result := db.DB.Where("isbn13 = ?", isbn13).Find(&book)
 
-	return book
+	if result.Error != nil {
+		return model.Book{}, result.Error
+	}
+
+	return book, nil
 }
 
 // AddBook adds a new Book entity from the database
@@ -35,13 +43,23 @@ func AddBook(book model.Book) (model.Book, error) {
 }
 
 // EditBook edits a Book entity from the database
-func EditBook(book model.Book, isbn13 string) model.Book {
-	db.DB.First(&book, isbn13)
+func EditBook(book model.Book, isbn13 string) (model.Book, error) {
+	result := db.DB.First(&book, isbn13)
 
-	return book
+	if result.Error != nil {
+		return model.Book{}, result.Error
+	}
+
+	return book, nil
 }
 
 // DeleteBook deletes a Book entity from the database
-func DeleteBook(isbn13 string) {
-	db.DB.Delete(&model.Book{}, isbn13)
+func DeleteBook(isbn13 string) error {
+	result := db.DB.Where("isbn13 = ?", isbn13).Delete(&model.Book{})
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }

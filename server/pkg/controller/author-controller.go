@@ -11,7 +11,13 @@ import (
 
 // GetAuthors is the controller to fetch the list of Authors
 func GetAuthors(c *gin.Context) {
-	results := service.GetAuthors()
+	results, err := service.GetAuthors()
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"authors": results,
@@ -22,7 +28,13 @@ func GetAuthors(c *gin.Context) {
 func GetAuthorByID(c *gin.Context) {
 	id := c.Param("id")
 
-	result := service.GetAuthorByID(id)
+	result, err := service.GetAuthorByID(id)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"author": result,
@@ -31,8 +43,8 @@ func GetAuthorByID(c *gin.Context) {
 
 // AddAuthor is the controller to add a new Author entity
 func AddAuthor(c *gin.Context) {
-	var Author model.Author
-	err := c.Bind(&Author)
+	var author model.Author
+	err := c.Bind(&author)
 
 	if err != nil {
 		log.Fatal(err)
@@ -40,7 +52,7 @@ func AddAuthor(c *gin.Context) {
 		return
 	}
 
-	result, err := service.AddAuthor(Author)
+	result, err := service.AddAuthor(author)
 
 	if err != nil {
 		log.Fatal(err)
@@ -53,10 +65,10 @@ func AddAuthor(c *gin.Context) {
 
 // EditAuthor is the controller to edit a Author entity
 func EditAuthor(c *gin.Context) {
-	var Author model.Author
+	var author model.Author
 	id := c.Param("id")
 
-	err := c.Bind(&Author)
+	err := c.Bind(&author)
 
 	if err != nil {
 		log.Fatal(err)
@@ -64,7 +76,13 @@ func EditAuthor(c *gin.Context) {
 		return
 	}
 
-	result := service.EditAuthor(Author, id)
+	result, err := service.EditAuthor(author, id)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"author": result,
@@ -76,7 +94,13 @@ func EditAuthor(c *gin.Context) {
 func DeleteAuthor(c *gin.Context) {
 	id := c.Param("id")
 
-	service.DeleteAuthor(id)
+	err := service.DeleteAuthor(id)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.Status(http.StatusNoContent)
 }
