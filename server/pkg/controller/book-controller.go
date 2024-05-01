@@ -12,7 +12,15 @@ import (
 
 // GetBooks is the controller to fetch the list of Books
 func GetBooks(c *gin.Context) {
-	results := service.GetBooks()
+	searchQuery := c.Query("q")
+
+	results, err := service.GetBooks(searchQuery)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"books": results,
@@ -28,7 +36,13 @@ func GetBookByISBN13(c *gin.Context) {
 		return
 	}
 
-	result := service.GetBookByISBN13(isbn13)
+	result, err := service.GetBookByISBN13(isbn13)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"book": result,
@@ -60,12 +74,7 @@ func AddBook(c *gin.Context) {
 // EditBook is the controller to edit a Book entity
 func EditBook(c *gin.Context) {
 	var book model.Book
-	isbn13 := c.Param("isbn13")
-
-	if !util.IsValidISBN13(isbn13) {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ISBN13."})
-		return
-	}
+	id := c.Param("id")
 
 	err := c.Bind(&book)
 
@@ -75,7 +84,13 @@ func EditBook(c *gin.Context) {
 		return
 	}
 
-	result := service.EditBook(book, isbn13)
+	result, err := service.EditBook(book, id)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"book": result,
@@ -85,14 +100,15 @@ func EditBook(c *gin.Context) {
 
 // DeleteBook is the controller to delete a Book entity
 func DeleteBook(c *gin.Context) {
-	isbn13 := c.Param("isbn13")
+	id := c.Param("id")
 
-	if !util.IsValidISBN13(isbn13) {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ISBN13."})
+	err := service.DeleteBook(id)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
-
-	service.DeleteBook(isbn13)
 
 	c.Status(http.StatusNoContent)
 }

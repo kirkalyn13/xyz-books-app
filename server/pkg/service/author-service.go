@@ -6,18 +6,30 @@ import (
 )
 
 // GetAuthors fetches the list of Authors
-func GetAuthors() []model.Author {
-	return repository.GetAuthors()
+func GetAuthors() ([]model.Author, error) {
+	authors, err := repository.GetAuthors()
+
+	if err != nil {
+		return []model.Author{}, err
+	}
+
+	return authors, err
 }
 
 // GetAuthorsByID fetches a Author based on a given ID
-func GetAuthorByID(id string) model.Author {
-	return repository.GetAuthorByID(id)
+func GetAuthorByID(id string) (model.Author, error) {
+	author, err := repository.GetAuthorByID(id)
+
+	if err != nil {
+		return model.Author{}, err
+	}
+
+	return author, nil
 }
 
 // AddAuthor adds a new Author entity
-func AddAuthor(Author model.Author) (model.Author, error) {
-	result, err := repository.AddAuthor(Author)
+func AddAuthor(author model.Author) (model.Author, error) {
+	result, err := repository.AddAuthor(author)
 
 	if err != nil {
 		return model.Author{}, err
@@ -27,13 +39,23 @@ func AddAuthor(Author model.Author) (model.Author, error) {
 }
 
 // EditAuthor edits a Author entity
-func EditAuthor(Author model.Author, id string) model.Author {
-	result := repository.EditAuthor(Author, id)
+func EditAuthor(author model.Author, id string) (model.Author, error) {
+	result, err := repository.EditAuthor(author, id)
 
-	return result
+	if err != nil {
+		return model.Author{}, err
+	}
+
+	return result, nil
 }
 
 // DeleteAuthor deletes a Author entity
-func DeleteAuthor(id string) {
-	repository.DeleteAuthor(id)
+func DeleteAuthor(id string) error {
+	err := repository.DeleteAuthor(id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

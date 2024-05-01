@@ -21,13 +21,13 @@ func RegisterRoutes(r *gin.Engine) {
 	r.POST("/api/v1/publishers", controller.AddPublisher)
 
 	// PUT Requests
-	r.PUT("/api/v1/books/:isbn13", controller.EditBook)
+	r.PUT("/api/v1/books/:id", controller.EditBook)
 	r.PUT("/api/v1/authors/:id", controller.EditAuthor)
 	r.PUT("/api/v1/publishers/:id", controller.EditPublisher)
 
 	// DELETE Requests
-	r.DELETE("/api/v1/books/:isbn13", controller.DeleteBook)
-	r.DELETE("/api/v1/authors/:isbn13", controller.DeleteAuthor)
-	r.DELETE("/api/v1/publishers/:isbn13", controller.DeletePublisher)
+	r.DELETE("/api/v1/books/:id", controller.DeleteBook)
+	r.DELETE("/api/v1/authors/:id", controller.DeleteAuthor)
+	r.DELETE("/api/v1/publishers/:id", controller.DeletePublisher)
 
 }

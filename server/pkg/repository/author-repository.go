@@ -6,42 +6,60 @@ import (
 )
 
 // GetAuthors fetches the list of Authors from the database
-func GetAuthors() []model.Author {
-	var Authors []model.Author
+func GetAuthors() ([]model.Author, error) {
+	var authors []model.Author
 
-	db.DB.Unscoped().Find(&Authors)
+	result := db.DB.Model(&model.Author{}).Preload("Books").Find(&authors)
 
-	return Authors
+	if result.Error != nil {
+		return []model.Author{}, result.Error
+	}
+
+	return authors, nil
 }
 
 // GetAuthorsByID fetches a Author based on a given ID from the database
-func GetAuthorByID(id string) model.Author {
-	var Author model.Author
+func GetAuthorByID(id string) (model.Author, error) {
+	var author model.Author
 
-	db.DB.Unscoped().Find(&Author, id)
-
-	return Author
-}
-
-// AddAuthor adds a new Author entity from the database
-func AddAuthor(Author model.Author) (model.Author, error) {
-	result := db.DB.Unscoped().Create(&Author)
+	result := db.DB.Model(&model.Author{}).Preload("Books").Find(&author, id)
 
 	if result.Error != nil {
 		return model.Author{}, result.Error
 	}
 
-	return Author, nil
+	return author, nil
+}
+
+// AddAuthor adds a new Author entity from the database
+func AddAuthor(author model.Author) (model.Author, error) {
+	result := db.DB.Unscoped().Create(&author)
+
+	if result.Error != nil {
+		return model.Author{}, result.Error
+	}
+
+	return author, nil
 }
 
 // EditAuthor edits a Author entity from the database
-func EditAuthor(Author model.Author, id string) model.Author {
-	db.DB.First(&Author, id)
+func EditAuthor(author model.Author, id string) (model.Author, error) {
+	result := db.DB.Where("id = ?", id).Updates(&author)
 
-	return Author
+	if result.Error != nil {
+		return model.Author{}, result.Error
+	}
+
+	return author, nil
 }
 
 // DeleteAuthor deletes a Author entity from the database
-func DeleteAuthor(id string) {
-	db.DB.Delete(&model.Author{}, id)
+func DeleteAuthor(id string) error {
+	result := db.DB.Delete(&model.Author{}, "id = ?", id)
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }
