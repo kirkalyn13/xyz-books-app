@@ -39,8 +39,8 @@ func AddBook(book model.Book) (model.Book, error) {
 }
 
 // EditBook edits a Book entity
-func EditBook(book model.Book, isbn13 string) (model.Book, error) {
-	book, err := repository.EditBook(book, isbn13)
+func EditBook(book model.Book, id string) (model.Book, error) {
+	book, err := repository.EditBook(book, id)
 
 	if err != nil {
 		return model.Book{}, err
@@ -50,8 +50,8 @@ func EditBook(book model.Book, isbn13 string) (model.Book, error) {
 }
 
 // DeleteBook deletes a Book entity
-func DeleteBook(isbn13 string) error {
-	err := repository.DeleteBook(isbn13)
+func DeleteBook(id string) error {
+	err := repository.DeleteBook(id)
 
 	if err != nil {
 		return err

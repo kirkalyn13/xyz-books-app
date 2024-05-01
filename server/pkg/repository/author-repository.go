@@ -55,7 +55,7 @@ func EditAuthor(author model.Author, id string) (model.Author, error) {
 
 // DeleteAuthor deletes a Author entity from the database
 func DeleteAuthor(id string) error {
-	result := db.DB.Where("id = ?", id).Delete(&model.Author{})
+	result := db.DB.Delete(&model.Author{}, "id = ?", id)
 
 	if result.Error != nil {
 		return result.Error

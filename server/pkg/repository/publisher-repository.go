@@ -55,7 +55,7 @@ func EditPublisher(publisher model.Publisher, id string) (model.Publisher, error
 
 // DeletePublisher deletes a Publisher entity from the database
 func DeletePublisher(id string) error {
-	result := db.DB.Where("id = ?", id).Delete(&model.Publisher{}, id)
+	result := db.DB.Delete(&model.Publisher{}, "id = ?", id)
 
 	if result.Error != nil {
 		return result.Error

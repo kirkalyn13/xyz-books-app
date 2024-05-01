@@ -43,8 +43,8 @@ func AddBook(book model.Book) (model.Book, error) {
 }
 
 // EditBook edits a Book entity from the database
-func EditBook(book model.Book, isbn13 string) (model.Book, error) {
-	result := db.DB.Where("isbn13 = ?", isbn13).Updates(&book)
+func EditBook(book model.Book, id string) (model.Book, error) {
+	result := db.DB.Where("id = ?", id).Updates(&book)
 
 	if result.Error != nil {
 		return model.Book{}, result.Error
@@ -54,8 +54,8 @@ func EditBook(book model.Book, isbn13 string) (model.Book, error) {
 }
 
 // DeleteBook deletes a Book entity from the database
-func DeleteBook(isbn13 string) error {
-	result := db.DB.Where("isbn13 = ?", isbn13).Delete(&model.Book{})
+func DeleteBook(id string) error {
+	result := db.DB.Where("id = ?", id).Delete(&model.Book{})
 
 	if result.Error != nil {
 		return result.Error

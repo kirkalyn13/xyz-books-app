@@ -74,12 +74,7 @@ func AddBook(c *gin.Context) {
 // EditBook is the controller to edit a Book entity
 func EditBook(c *gin.Context) {
 	var book model.Book
-	isbn13 := c.Param("isbn13")
-
-	if !util.IsValidISBN13(isbn13) {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ISBN13."})
-		return
-	}
+	id := c.Param("id")
 
 	err := c.Bind(&book)
 
@@ -89,7 +84,7 @@ func EditBook(c *gin.Context) {
 		return
 	}
 
-	result, err := service.EditBook(book, isbn13)
+	result, err := service.EditBook(book, id)
 
 	if err != nil {
 		log.Fatal(err)
@@ -105,14 +100,9 @@ func EditBook(c *gin.Context) {
 
 // DeleteBook is the controller to delete a Book entity
 func DeleteBook(c *gin.Context) {
-	isbn13 := c.Param("isbn13")
+	id := c.Param("id")
 
-	if !util.IsValidISBN13(isbn13) {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ISBN13."})
-		return
-	}
-
-	err := service.DeleteBook(isbn13)
+	err := service.DeleteBook(id)
 
 	if err != nil {
 		log.Fatal(err)
