@@ -44,7 +44,7 @@ func AddAuthor(author model.Author) (model.Author, error) {
 
 // EditAuthor edits a Author entity from the database
 func EditAuthor(author model.Author, id string) (model.Author, error) {
-	result := db.DB.First(&author, id)
+	result := db.DB.Where("id = ?", id).Updates(&author)
 
 	if result.Error != nil {
 		return model.Author{}, result.Error

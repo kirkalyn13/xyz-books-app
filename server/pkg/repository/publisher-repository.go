@@ -44,7 +44,7 @@ func AddPublisher(publisher model.Publisher) (model.Publisher, error) {
 
 // EditPublisher edits a Publisher entity from the database
 func EditPublisher(publisher model.Publisher, id string) (model.Publisher, error) {
-	result := db.DB.First(&publisher, id)
+	result := db.DB.Where("id = ?", id).Updates(&publisher)
 
 	if result.Error != nil {
 		return model.Publisher{}, result.Error

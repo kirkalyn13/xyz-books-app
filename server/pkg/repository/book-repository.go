@@ -44,7 +44,7 @@ func AddBook(book model.Book) (model.Book, error) {
 
 // EditBook edits a Book entity from the database
 func EditBook(book model.Book, isbn13 string) (model.Book, error) {
-	result := db.DB.First(&book, isbn13)
+	result := db.DB.Where("isbn13 = ?", isbn13).Updates(&book)
 
 	if result.Error != nil {
 		return model.Book{}, result.Error
