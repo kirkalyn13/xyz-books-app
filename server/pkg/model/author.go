@@ -8,7 +8,7 @@ type Author struct {
 	MiddleName string `gorm:"column:middle_name;" json:"middle_name,omitempty"`
 
 	// Relationships
-	Books []*Book `gorm:"many2many:book_authors;" json:"books,omitempty"`
+	Books []*Book `gorm:"many2many:author_book;" json:"books,omitempty"`
 }
 
 func (Author) TableName() string {

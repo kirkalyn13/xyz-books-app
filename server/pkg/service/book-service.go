@@ -6,8 +6,8 @@ import (
 )
 
 // GetBooks fetches the list of Books
-func GetBooks() ([]model.Book, error) {
-	books, err := repository.GetBooks()
+func GetBooks(searchQuery string) ([]model.Book, error) {
+	books, err := repository.GetBooks(searchQuery)
 
 	if err != nil {
 		return []model.Book{}, err

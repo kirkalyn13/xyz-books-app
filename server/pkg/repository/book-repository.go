@@ -6,10 +6,10 @@ import (
 )
 
 // GetBooks fetches the list of Books from the database
-func GetBooks() ([]model.Book, error) {
+func GetBooks(searchQuery string) ([]model.Book, error) {
 	var books []model.Book
 
-	result := db.DB.Preload("Publishers").Find(&books)
+	result := db.DB.Where("isbn13 LIKE ?", "%"+searchQuery+"%").Find(&books)
 
 	if result.Error != nil {
 		return []model.Book{}, result.Error

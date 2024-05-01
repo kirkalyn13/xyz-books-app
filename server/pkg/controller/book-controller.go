@@ -12,7 +12,9 @@ import (
 
 // GetBooks is the controller to fetch the list of Books
 func GetBooks(c *gin.Context) {
-	results, err := service.GetBooks()
+	searchQuery := c.Query("q")
+
+	results, err := service.GetBooks(searchQuery)
 
 	if err != nil {
 		log.Fatal(err)
