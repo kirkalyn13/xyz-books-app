@@ -8,6 +8,5 @@ var (
 		&model.Author{},
 		&model.Book{},
 		&model.Publisher{},
-		&model.AuthorBook{},
 	}
 )
