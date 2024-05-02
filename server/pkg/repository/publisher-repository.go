@@ -18,7 +18,7 @@ func GetPublishers() ([]model.Publisher, error) {
 	return publishers, nil
 }
 
-// GetPublishersByID fetches a Publisher based on a given ID from the database
+// GetPublisherByID fetches a Publisher based on a given ID from the database
 func GetPublisherByID(id string) (model.Publisher, error) {
 	var publisher model.Publisher
 
@@ -33,7 +33,7 @@ func GetPublisherByID(id string) (model.Publisher, error) {
 
 // AddPublisher adds a new Publisher entity from the database
 func AddPublisher(publisher model.Publisher) (model.Publisher, error) {
-	result := db.DB.Unscoped().Create(&publisher)
+	result := db.DB.Create(&publisher)
 
 	if result.Error != nil {
 		return model.Publisher{}, result.Error

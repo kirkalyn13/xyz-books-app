@@ -9,7 +9,7 @@ import (
 func GetAuthors() ([]model.Author, error) {
 	var authors []model.Author
 
-	result := db.DB.Model(&model.Author{}).Preload("Books").Find(&authors)
+	result := db.DB.Preload("Books").Find(&authors)
 
 	if result.Error != nil {
 		return []model.Author{}, result.Error
@@ -22,7 +22,7 @@ func GetAuthors() ([]model.Author, error) {
 func GetAuthorByID(id string) (model.Author, error) {
 	var author model.Author
 
-	result := db.DB.Model(&model.Author{}).Preload("Books").Find(&author, id)
+	result := db.DB.Preload("Books").Find(&author, id)
 
 	if result.Error != nil {
 		return model.Author{}, result.Error
@@ -33,7 +33,7 @@ func GetAuthorByID(id string) (model.Author, error) {
 
 // AddAuthor adds a new Author entity from the database
 func AddAuthor(author model.Author) (model.Author, error) {
-	result := db.DB.Unscoped().Create(&author)
+	result := db.DB.Create(&author)
 
 	if result.Error != nil {
 		return model.Author{}, result.Error

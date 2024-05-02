@@ -13,7 +13,7 @@ type Book struct {
 	PublisherID     *uint   `gorm:"column:publisher_id;" json:"publisher_id,omitempty"`
 
 	// Relationships
-	Author    []*Author `gorm:"many2many:author_book;" json:"authors,omitempty"`
+	Authors   []*Author `gorm:"many2many:author_book;" json:"authors,omitempty"`
 	Publisher Publisher `gorm:"references:id;foreignKey:publisher_id;" json:"publisher,omitempty"`
 }
 

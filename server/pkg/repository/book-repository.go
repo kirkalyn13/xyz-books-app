@@ -9,7 +9,7 @@ import (
 func GetBooks(searchQuery string) ([]model.Book, error) {
 	var books []model.Book
 
-	result := db.DB.Where("isbn13 LIKE ?", "%"+searchQuery+"%").Find(&books)
+	result := db.DB.Preload("Authors").Where("isbn13 LIKE ?", "%"+searchQuery+"%").Find(&books)
 
 	if result.Error != nil {
 		return []model.Book{}, result.Error
@@ -22,7 +22,7 @@ func GetBooks(searchQuery string) ([]model.Book, error) {
 func GetBookByISBN13(isbn13 string) (model.Book, error) {
 	var book model.Book
 
-	result := db.DB.Where("isbn13 = ?", isbn13).Find(&book)
+	result := db.DB.Preload("Authors").Where("isbn13 = ?", isbn13).Find(&book)
 
 	if result.Error != nil {
 		return model.Book{}, result.Error
@@ -33,7 +33,7 @@ func GetBookByISBN13(isbn13 string) (model.Book, error) {
 
 // AddBook adds a new Book entity from the database
 func AddBook(book model.Book) (model.Book, error) {
-	result := db.DB.Unscoped().Create(&book)
+	result := db.DB.Create(&book)
 
 	if result.Error != nil {
 		return model.Book{}, result.Error
@@ -44,10 +44,16 @@ func AddBook(book model.Book) (model.Book, error) {
 
 // EditBook edits a Book entity from the database
 func EditBook(book model.Book, id string) (model.Book, error) {
-	result := db.DB.Where("id = ?", id).Updates(&book)
+	result := db.DB.Where("id = ?", id).Save(&book)
 
 	if result.Error != nil {
 		return model.Book{}, result.Error
+	}
+
+	err := db.DB.Model(&book).Association("Authors").Replace(book.Authors)
+
+	if err != nil {
+		return model.Book{}, err
 	}
 
 	return book, nil
