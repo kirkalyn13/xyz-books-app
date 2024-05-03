@@ -5,14 +5,14 @@ import React from "react";
 const SearchBar: React.FC = () => {
     return (
         <div
-        className="bg-white w-100 mt-8 md:mt-0 border-2 border-black rounded-md
-            flex align-center justify-start">
-        <FaSearch className="text-xl mt-4 ms-2 text-black"/>
-        <input 
-            className="ps-4 text-xl focus:outline-none text-black"
-            type="text"
-            placeholder="Enter ISBN 13..."
-            />
+            className="w-full md:w-1/3 bg-white my-8 md:mt-0 mx-4 border-2 border-black rounded-sm
+                flex align-center justify-start">
+            <FaSearch className="text-xl m-2 text-black"/>
+            <input 
+                className="text-xl outline-none focus:outline-none text-slate-900"
+                type="text"
+                placeholder="Type to search..."
+                />
         </div>
     )
 }

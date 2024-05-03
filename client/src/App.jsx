@@ -1,27 +1,32 @@
-import Header from './components/Header/Header'
+import NavBar from './components/NavBar/NavBar'
 import Footer from './components/Footer/Footer'
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom"
-import BookList from './components/BookList/BookList'
-import Book from './components/Book/Book';
+import Books from './components/Books/Books'
+import Authors from './components/Authors/Authors'
+import Publishers from './components/Publishers/Publishers'
 
 const router = createBrowserRouter([
   {
       path: "/",
-      element: <BookList />,
+      element: <Books />,
   },
   {
-      path: "/books/:isbn13",
-      element: <Book />,
+      path: "/authors",
+      element: <Authors />,
   },
+  {
+    path: "/publishers",
+    element: <Publishers />,
+},
 ]);
 
 function App() {
   return (
     <main>
-      <Header />
+      <NavBar />
         <RouterProvider router={router} />
       <Footer />
     </main>
