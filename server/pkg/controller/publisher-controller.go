@@ -11,7 +11,9 @@ import (
 
 // GetPublishers is the controller to fetch the list of Publishers
 func GetPublishers(c *gin.Context) {
-	results, err := service.GetPublishers()
+	searchQuery := c.Query("q")
+
+	results, err := service.GetPublishers(searchQuery)
 
 	if err != nil {
 		log.Fatal(err)

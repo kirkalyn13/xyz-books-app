@@ -6,10 +6,12 @@ import (
 )
 
 // GetAuthors fetches the list of Authors from the database
-func GetAuthors() ([]model.Author, error) {
+func GetAuthors(searchQuery string) ([]model.Author, error) {
 	var authors []model.Author
 
-	result := db.DB.Preload("Books").Find(&authors)
+	result := db.DB.Preload("Books").
+		Where("first_name LIKE ? OR last_name LIKE ? OR middle_name LIKE ?", "%"+searchQuery+"%", "%"+searchQuery+"%", "%"+searchQuery+"%").
+		Find(&authors)
 
 	if result.Error != nil {
 		return []model.Author{}, result.Error

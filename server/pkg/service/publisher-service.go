@@ -6,8 +6,8 @@ import (
 )
 
 // GetPublishers fetches the list of Publishers
-func GetPublishers() ([]model.Publisher, error) {
-	publishers, err := repository.GetPublishers()
+func GetPublishers(searchQuery string) ([]model.Publisher, error) {
+	publishers, err := repository.GetPublishers(searchQuery)
 
 	if err != nil {
 		return []model.Publisher{}, err

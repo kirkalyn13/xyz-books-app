@@ -1,8 +1,16 @@
 import { FaSearch } from "react-icons/fa"
-import { useState, useEffect } from "react";
 import React from "react";
+import { useSearchParams } from 'react-router-dom'
 
-const SearchBar: React.FC = () => {
+interface SearchBarProps {
+    placeholder?: string
+}
+
+const DEFAULT_PLACEHOLDER = "Type to search..."
+
+const SearchBar: React.FC<SearchBarProps> = ({ placeholder = DEFAULT_PLACEHOLDER }) => {
+    const [ searchParams, setSearchParams ] = useSearchParams({q: ''})
+
     return (
         <div
             className="w-full md:w-1/3 bg-white my-8 md:mt-0 mx-4 border-2 border-black rounded-sm
@@ -11,7 +19,11 @@ const SearchBar: React.FC = () => {
             <input 
                 className="text-xl outline-none focus:outline-none text-slate-900"
                 type="text"
-                placeholder="Type to search..."
+                placeholder={placeholder}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchParams((prev: URLSearchParams) => {
+                    prev.set("q", e.target.value)
+                    return prev
+                }, { replace: true })}
                 />
         </div>
     )
