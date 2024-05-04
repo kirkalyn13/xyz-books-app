@@ -10,7 +10,7 @@ const columns = [
   { header: 'Title', accessor: 'title' },
   { header: 'Authors', accessor: 'authors' },
   { header: 'ISBN13', accessor: 'isbn13' },
-  { header: 'ISBN 10', accessor: 'isbn10' },
+  { header: 'ISBN10', accessor: 'isbn10' },
   { header: 'Publication Year', accessor: 'publication_year' },
   { header: 'Publisher', accessor: 'publisher' },
   { header: 'Edition', accessor: 'edition' },
@@ -29,7 +29,7 @@ const Books: React.FC = () => {
   },[searchParams])
   
   return (
-    <section className="w-full flex flex-col">
+    <section className="w-full h-screen flex flex-col">
         <h2 className="w-full text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center'>
             <SearchBar placeholder='Enter ISBN13...'/>

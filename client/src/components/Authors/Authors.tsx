@@ -24,7 +24,7 @@ const Authors: React.FC = () => {
   },[searchParams])
 
   return (
-    <section className="w-full flex flex-col">
+    <section className="w-full h-screen flex flex-col">
         <h2 className="w-full text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center'>
             <SearchBar />
