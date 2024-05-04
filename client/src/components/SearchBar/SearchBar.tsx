@@ -13,9 +13,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder = DEFAULT_PLACEHOLDER
 
     return (
         <div
-            className="w-full md:w-1/3 bg-white my-8 md:mt-0 mx-4 border-2 border-black rounded-sm
+            className="w-full md:w-1/3 bg-white my-8 md:mt-0 mx-4 border-2 border-slate-900 rounded-sm
                 flex align-center justify-start">
-            <FaSearch className="text-xl m-2 text-black"/>
+            <FaSearch className="text-xl m-2 text-zinc-600"/>
             <input 
                 className="text-xl outline-none focus:outline-none text-slate-900"
                 type="text"

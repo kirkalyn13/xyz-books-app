@@ -15,12 +15,12 @@ interface TableProps {
 
 
 const Table: React.FC<TableProps> = ({ data, columns, showModal, deleteItem }) => {
-  const columnsWithActions = (columns: Column[]) => [{ header: 'Actions', accessor: 'actions' }, ...columns]
+  const columnsWithActions = (columns: Column[]) => [...columns, { header: 'Actions', accessor: 'actions' }]
 
   const actionsRow = (
     <div className="flex justify-around align-center">
-      <FaEdit className='text-xl text-black' onClick={() => showModal()}/>
-      <FaTrash className='text-xl text-black' onClick={() => deleteItem()}/>
+      <FaEdit className='text-xl text-zinc-600' onClick={() => showModal()}/>
+      <FaTrash className='text-xl text-zinc-600' onClick={() => deleteItem()}/>
     </div>
   )
 
@@ -43,7 +43,7 @@ const Table: React.FC<TableProps> = ({ data, columns, showModal, deleteItem }) =
             ))}
           </tr>
         </thead>
-        <tbody className="bg-white text-black">
+        <tbody className="bg-white text-zinc-600">
           {data.map((row) => (
             <tr key={row.id}>
               {columnsWithActions(columns).map((column: Column) => (

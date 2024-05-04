@@ -61,11 +61,11 @@ const Books: React.FC = () => {
     <section className="w-full h-screen flex flex-col">
         {showAddModal ? <Modal closeModal={() => setShowAddModal(false)}/> : null}
         {showEditModal ? <Modal closeModal={() => setShowEditModal(false)} /> : null}
-        <h2 className="w-full text-3xl text-center">{TITLE}</h2>
-        <div className='w-full mt-4 text-3xl flex justify-center'>
+        <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
+        <div className='w-full mt-4 text-3xl flex justify-center align-center'>
             <SearchBar placeholder='Enter ISBN13...'/>
             <FaPlusSquare 
-              className="text-4xl text-slate-800"
+              className="text-4xl text-slate-800 me-4"
               onClick={() => setShowAddModal(true)}/>
         </div>
         <Table 

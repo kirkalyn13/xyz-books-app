@@ -56,7 +56,7 @@ const Authors: React.FC = () => {
     <section className="w-full h-screen flex flex-col"> 
         {showAddModal ? <Modal  closeModal={() => setShowAddModal(false)}/> : null}
         {showEditModal ? <Modal  closeModal={() => setShowEditModal(false)}/> : null}
-        <h2 className="w-full text-3xl text-center">{TITLE}</h2>
+        <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center'>
             <SearchBar />
             <FaPlusSquare 
