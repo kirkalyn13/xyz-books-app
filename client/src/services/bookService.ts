@@ -8,7 +8,6 @@ export const getBooks = async (q: string): Promise<any> => {
         const queryParams = {
             q
         }
-        console.log(buildUri(getEndpoint("books", "")))
         return await axios.get(buildUri(getEndpoint("books", ""), queryParams))
     } catch(err) {
         console.error(err)
