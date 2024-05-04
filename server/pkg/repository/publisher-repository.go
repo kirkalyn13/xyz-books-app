@@ -6,10 +6,10 @@ import (
 )
 
 // GetPublishers fetches the list of Publishers from the database
-func GetPublishers() ([]model.Publisher, error) {
+func GetPublishers(searchQuery string) ([]model.Publisher, error) {
 	var publishers []model.Publisher
 
-	result := db.DB.Preload("Books").Find(&publishers)
+	result := db.DB.Preload("Books").Where("name LIKE ?", "%"+searchQuery+"%").Find(&publishers)
 
 	if result.Error != nil {
 		return []model.Publisher{}, result.Error
