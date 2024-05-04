@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BiMenu, BiLogOut } from 'react-icons/bi'
+import { BiMenu } from 'react-icons/bi'
 
 const LOGO_SRC = "../../public/favicon.ico"
 const Header : React.FC = () => {
@@ -26,19 +26,19 @@ const Header : React.FC = () => {
             </div>
 
             <ul className="hidden md:flex space-x-4 align-center items-center">
-                <li><a href="#" className="text-black hover:text-amber-500">Books</a></li>
-                <li><a href="#authors" className="text-black hover:text-amber-500">Authors</a></li>
-                <li><a href="#publishers" className="text-black hover:text-amber-500">Publishers</a></li>
+                <li><a href="/" className="text-black hover:text-amber-500">Books</a></li>
+                <li><a href="/authors" className="text-black hover:text-amber-500">Authors</a></li>
+                <li><a href="/publishers" className="text-black hover:text-amber-500">Publishers</a></li>
             </ul>
         </div>
 
-        { showMenu ?
+            { showMenu ?
                 (<ul className="space-y-2 text-center">
-                    <li><a href="#" className="text-black border-t-1 hover:text-amber-500">Home</a></li>
-                    <li><a href="#authors" className="text-black hover:text-amber-500">Voltage</a></li>
-                    <li><a href="#publishers" className="text-black hover:text-amber-500">Current</a></li>
+                    <li><a href="/" className="text-black border-t-1 hover:text-amber-500">Home</a></li>
+                    <li><a href="/authors" className="text-black hover:text-amber-500">Voltage</a></li>
+                    <li><a href="/publishers" className="text-black hover:text-amber-500">Current</a></li>
                 </ul>)
-            : null}
+            : null }
 
     </nav>
   )
