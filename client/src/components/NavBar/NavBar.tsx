@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { BiMenu } from 'react-icons/bi'
 
-const LOGO_SRC = "../../public/favicon.ico"
+const LOGO_SRC = "/favicon.ico"
 const Header : React.FC = () => {
   const [ showMenu, setShowMenu ] = useState(false)
   
