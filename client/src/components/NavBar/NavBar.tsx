@@ -34,9 +34,9 @@ const Header : React.FC = () => {
 
             { showMenu ?
                 (<ul className="space-y-2 text-center">
-                    <li><a href="/" className="text-black border-t-1 hover:text-amber-500">Home</a></li>
-                    <li><a href="/authors" className="text-black hover:text-amber-500">Voltage</a></li>
-                    <li><a href="/publishers" className="text-black hover:text-amber-500">Current</a></li>
+                    <li><a href="/" className="text-black border-t-1 hover:text-amber-500">Books</a></li>
+                    <li><a href="/authors" className="text-black hover:text-amber-500">Authors</a></li>
+                    <li><a href="/publishers" className="text-black hover:text-amber-500">Publishers</a></li>
                 </ul>)
             : null }
 
