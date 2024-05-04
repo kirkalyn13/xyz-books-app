@@ -7,18 +7,20 @@ type Column = {
 }
 
 interface TableProps {
-  data: any[];
-  columns: Column[];
+  data: any[]
+  columns: Column[]
+  showModal: Function
+  deleteItem: Function
 }
 
 
-const Table: React.FC<TableProps> = ({ data, columns }) => {
+const Table: React.FC<TableProps> = ({ data, columns, showModal, deleteItem }) => {
   const columnsWithActions = (columns: Column[]) => [{ header: 'Actions', accessor: 'actions' }, ...columns]
 
   const actionsRow = (
     <div className="flex justify-around align-center">
-      <FaEdit className='text-xl text-black'/>
-      <FaTrash className='text-xl text-black' />
+      <FaEdit className='text-xl text-black' onClick={() => showModal()}/>
+      <FaTrash className='text-xl text-black' onClick={() => deleteItem()}/>
     </div>
   )
 
@@ -33,7 +35,7 @@ const Table: React.FC<TableProps> = ({ data, columns }) => {
     <div className="overflow-x-auto mx-4">
       <table className="table-auto w-full border-collapse border border-gray-800">
         <thead>
-          <tr className="bg-black text-white">
+          <tr className="bg-slate-800 text-white">
             {columnsWithActions(columns).map((column: Column) => (
               <th key={column.accessor} className="px-4 py-2">
                 {column.header}

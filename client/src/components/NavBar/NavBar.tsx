@@ -29,17 +29,17 @@ const Header : React.FC = () => {
             </div>
 
             <ul className="hidden md:flex space-x-4 align-center items-center">
-                <li><a href="/" className="text-black hover:text-amber-500">BOOKS</a></li>
-                <li><a href="/authors" className="text-black hover:text-amber-500">AUTHORS</a></li>
-                <li><a href="/publishers" className="text-black hover:text-amber-500">PUBLISHERS</a></li>
+                <li><a href="/" className="text-black hover:text-sky-300">BOOKS</a></li>
+                <li><a href="/authors" className="text-black hover:text-sky-300">AUTHORS</a></li>
+                <li><a href="/publishers" className="text-black hover:text-sky-300">PUBLISHERS</a></li>
             </ul>
         </div>
 
             { showMenu ?
                 (<ul className="space-y-2 text-center">
-                    <li><a href="/" className="text-black border-t-1 hover:text-amber-500">BOOKS</a></li>
-                    <li><a href="/authors" className="text-black hover:text-amber-500">AUTHORS</a></li>
-                    <li><a href="/publishers" className="text-black hover:text-amber-500">PUBLISHERS</a></li>
+                    <li><a href="/" className="text-black border-t-1 hover:text-sky-300">BOOKS</a></li>
+                    <li><a href="/authors" className="text-black hover:text-sky-300">AUTHORS</a></li>
+                    <li><a href="/publishers" className="text-black hover:text-sky-300">PUBLISHERS</a></li>
                 </ul>)
             : null }
 
