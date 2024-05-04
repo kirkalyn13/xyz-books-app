@@ -1,4 +1,6 @@
-type Book = {
+import { Author } from "./author"
+
+export type Book = {
     id: number
     title: string
     isbn13: string
