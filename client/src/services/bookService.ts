@@ -3,12 +3,13 @@ import { getEndpoint } from "../utils/getEndpoint"
 import { Book } from "../types/book"
 import axios from 'axios'
 
-export const getBooks = async (isbn13: string, searchQuery: string): Promise<any> => {
+export const getBooks = async (q: string): Promise<any> => {
     try {
         const queryParams = {
-            searchQuery
+            q
         }
-        return await axios.get(buildUri(getEndpoint("books", isbn13), queryParams))
+        console.log(buildUri(getEndpoint("books", "")))
+        return await axios.get(buildUri(getEndpoint("books", ""), queryParams))
     } catch(err) {
         console.error(err)
     }
