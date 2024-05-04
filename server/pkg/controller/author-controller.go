@@ -11,7 +11,9 @@ import (
 
 // GetAuthors is the controller to fetch the list of Authors
 func GetAuthors(c *gin.Context) {
-	results, err := service.GetAuthors()
+	searchQuery := c.Query("q")
+
+	results, err := service.GetAuthors(searchQuery)
 
 	if err != nil {
 		log.Fatal(err)

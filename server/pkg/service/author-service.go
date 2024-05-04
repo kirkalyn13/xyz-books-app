@@ -6,8 +6,8 @@ import (
 )
 
 // GetAuthors fetches the list of Authors
-func GetAuthors() ([]model.Author, error) {
-	authors, err := repository.GetAuthors()
+func GetAuthors(searchQuery string) ([]model.Author, error) {
+	authors, err := repository.GetAuthors(searchQuery)
 
 	if err != nil {
 		return []model.Author{}, err
