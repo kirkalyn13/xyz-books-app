@@ -49,6 +49,23 @@ func GetBookByISBN13(c *gin.Context) {
 	})
 }
 
+// GetBookByID is the controller to fetch a Book based on a given ID
+func GetBookByID(c *gin.Context) {
+	id := c.Param("id")
+
+	result, err := service.GetBookByID(id)
+
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"book": result,
+	})
+}
+
 // AddBook is the controller to add a new Book entity
 func AddBook(c *gin.Context) {
 	var book model.Book

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import SearchBar from '../SearchBar/SearchBar'
 import Table from '../Table/Table'
 import swal from 'sweetalert'
-import { getPublishers } from '../../services/publisherService'
+import { deletePublisher, getPublishers } from '../../services/publisherService'
 import { useSearchParams } from 'react-router-dom'
-import Modal from '../Modal/Modal'
 import { FaPlusSquare } from 'react-icons/fa'
+import PublisherModal from './PublisherModal/PublisherModal'
+import useSearchID from '../../hooks/useSearchID'
 
 const TITLE = "Publisher Management"
 
@@ -18,53 +19,66 @@ const Publishers: React.FC = () => {
   const [ showEditModal, setShowEditModal] = useState(false)
   const [ publishers, setPublishers ] = useState([])
   const [ searchParams ] = useSearchParams()
+  const { updateID, clearID } = useSearchID()
 
-  const handleEditModal = (): void => {
+  const loadPublishers = (): void => {
+    getPublishers(searchParams.get("q") ?? "")
+    .then(res => {
+      setPublishers(res.data.publishers)
+    })
+  }
+
+  const handleEdit = (id: number): void => {
+    updateID(id.toString())
     setShowEditModal(true)
   }
 
-  const handleDelete = () => {
+  const closeEditModal = (): void => {
+    clearID()
+    setShowAddModal(false)
+  }
+
+  const handleDelete = (id: number) => {
     swal({
       title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this item!",
+      text: "Once deleted, you will not be able to recover this item.",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
     .then((willDelete) => {
       if (willDelete) {
-        // Perform delete action here
-        swal("Poof! Your item has been deleted!", {
-          icon: "success",
-        });
+        deletePublisher(id.toString()).then(() => {
+          swal("Publisher item has been deleted!", {
+            icon: "success",
+          })
+          loadPublishers()
+        })
       } else {
-        swal("Your item is safe!")
+        swal("Publisher retained.")
       }
     })
   }
   
   useEffect(() => {
-    getPublishers(searchParams.get("q") ?? "")
-    .then(res => {
-      setPublishers(res.data.publishers)
-    })
-  },[searchParams])
+    loadPublishers()
+  },[searchParams, showAddModal, showEditModal])
 
   return (
     <section className="w-full h-screen flex flex-col">
-        {showAddModal ? <Modal  closeModal={() => setShowAddModal(false)}/> : null}
-        {showEditModal ? <Modal  closeModal={() => setShowEditModal(false)}/> : null}
+        {showAddModal ? <PublisherModal title="Add Publisher" closeModal={() => closeEditModal()}/> : null}
+        {showEditModal ? <PublisherModal title="Edit Publisher" closeModal={() => setShowEditModal(false)}/> : null}
         <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center'>
             <SearchBar />
             <FaPlusSquare
-              className="text-4xl text-slate-800"
+              className="text-4xl text-slate-800 hover:text-sky-300"
               onClick={() => setShowAddModal(true)}/>
         </div>
         <Table 
           data={publishers} 
           columns={columns} 
-          showModal={handleEditModal} 
+          handleEdit={handleEdit} 
           deleteItem={handleDelete}/>
     </section>
   )

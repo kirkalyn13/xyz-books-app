@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import SearchBar from '../SearchBar/SearchBar'
 import Table from '../Table/Table'
-import Modal from '../Modal/Modal'
 import swal from 'sweetalert'
-import { getBooks } from '../../services/bookService'
+import { deleteBook, getBooks } from '../../services/bookService'
 import { useSearchParams } from 'react-router-dom'
 import { FaPlusSquare } from 'react-icons/fa'
+import BookModal from './BookModal/BookModal'
 
 const TITLE = "Book Management"
 
@@ -26,52 +26,58 @@ const Books: React.FC = () => {
   const [ books, setBooks ] = useState([])
   const [ searchParams ] = useSearchParams()
 
-  const handleEditModal = (): void  => {
+  const loadBooks = (): void => {
+    getBooks(searchParams.get("q") ?? "")
+    .then(res => {
+      setBooks(res.data.books)
+    })
+  }
+  
+  const handleEdit = (): void  => {
     setShowEditModal(true)
   }
 
-  const handleDelete = () => {
+  const handleDelete = (id: number) => {
     swal({
       title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this item!",
+      text: "Once deleted, you will not be able to recover this item.",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
     .then((willDelete) => {
       if (willDelete) {
-        // Perform delete action here
-        swal("Your item has been deleted!", {
-          icon: "success",
-        });
+        deleteBook(id).then(() => {
+          swal("Book has been deleted", {
+            icon: "success",
+          })
+          loadBooks()
+        })
       } else {
-        swal("Your item is safe!")
+        swal("Book retained.")
       }
     })
   }
 
   useEffect(() => {
-    getBooks(searchParams.get("q") ?? "")
-    .then(res => {
-      setBooks(res.data.books)
-    })
-  },[searchParams])
+    loadBooks()
+  },[searchParams, showAddModal, showEditModal])
   
   return (
     <section className="w-full h-screen flex flex-col">
-        {showAddModal ? <Modal closeModal={() => setShowAddModal(false)}/> : null}
-        {showEditModal ? <Modal closeModal={() => setShowEditModal(false)} /> : null}
+        {showAddModal ? <BookModal title="Add Book" closeModal={() => setShowAddModal(false)}/> : null}
+        {showEditModal ? <BookModal title="Edit Book" closeModal={() => setShowEditModal(false)}/>  : null}
         <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center align-center'>
             <SearchBar placeholder='Enter ISBN13...'/>
             <FaPlusSquare 
-              className="text-4xl text-slate-800 me-4"
+              className="text-4xl text-slate-800 me-4 hover:text-sky-300"
               onClick={() => setShowAddModal(true)}/>
         </div>
         <Table 
           data={books} 
           columns={columns} 
-          showModal={handleEditModal} 
+          handleEdit={handleEdit}  
           deleteItem={handleDelete}/>
     </section>
   )

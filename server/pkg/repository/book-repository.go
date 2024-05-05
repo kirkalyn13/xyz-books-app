@@ -18,11 +18,24 @@ func GetBooks(searchQuery string) ([]model.Book, error) {
 	return books, nil
 }
 
-// GetBooksByISBN13 fetches a Book based on a given ISBN13 from the database
+// GetBookByISBN13 fetches a Book based on a given ID from the database
 func GetBookByISBN13(isbn13 string) (model.Book, error) {
 	var book model.Book
 
 	result := db.DB.Preload("Authors").Where("isbn13 = ?", isbn13).Find(&book)
+
+	if result.Error != nil {
+		return model.Book{}, result.Error
+	}
+
+	return book, nil
+}
+
+// GetBookByID fetches a Book based on a given ISBN13 from the database
+func GetBookByID(id string) (model.Book, error) {
+	var book model.Book
+
+	result := db.DB.Preload("Authors").Where("id = ?", id).Find(&book)
 
 	if result.Error != nil {
 		return model.Book{}, result.Error
