@@ -7,9 +7,10 @@ interface ModalProps {
     closeModal: Function;
     children: JSX.Element;
     submit: Function;
+    disableSubmit: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, closeModal, children, submit }) => {
+const Modal: React.FC<ModalProps> = ({ title, closeModal, children, submit, disableSubmit }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
         <div className="w-screen md:w-1/4 h-2/3 md:h-auto mx-8 bg-white text-zinc-600 rounded-lg p-8 overflow-y-auto">
@@ -19,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({ title, closeModal, children, submit }) =>
             </div>
             {children}
             <div className='flex space-x-2 align-center justify-center'>
-                <Button text="Save" color="bg-sky-300" handleOnClick={() => submit()}/>
+                <Button disable={disableSubmit} text="Save" color="bg-sky-300" handleOnClick={() => submit()}/>
                 <Button
                     text="Close" 
                     color="bg-gray-300"

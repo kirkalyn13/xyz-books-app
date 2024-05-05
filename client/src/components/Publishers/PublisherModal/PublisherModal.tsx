@@ -10,18 +10,20 @@ interface PublisherModalProps {
 }
 
 const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal, data }) => {
-    const [publisher, setPublisher] = useState<Publisher | null>(null)
+    const [publisher, setPublisher] = useState<Publisher>({name: ""})
 
     const addPublisherHandler = (): void => {
-        console.log(publisher)
-        if (publisher) addPublisher(publisher)
-        closeModal()
+        if (!disableSubmit) addPublisher(publisher)
+            .then(() => closeModal())
+        
     }
 
     const editPublisherHandler = (): void => {
-        if (publisher) editPublisher(publisher)
+        if (!disableSubmit) editPublisher(publisher)
+            .then(() => closeModal())
     }
 
+    let disableSubmit = publisher.name === ""
     const submitHandler: Function = () => title.toLowerCase().includes("add") ? addPublisherHandler() : editPublisherHandler()
 
     useEffect(() => {
@@ -29,7 +31,7 @@ const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal, data
     },[])
 
     return (
-        <Modal title={title} closeModal={closeModal} submit={submitHandler}>
+        <Modal disableSubmit={disableSubmit} title={title} closeModal={closeModal} submit={submitHandler}>
             <div className="flex flex-col md:flex-row justify-between my-4">
                 <label className="text-md me-4 flex items-center">Publisher Name: </label>
                 <input
