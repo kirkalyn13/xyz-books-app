@@ -1,7 +1,6 @@
 import { Book } from "./book"
 
 export type Publisher = {
-    id: string
+    id?: string
     name: string
-    books: Book[]
 }

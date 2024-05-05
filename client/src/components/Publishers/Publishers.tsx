@@ -4,8 +4,8 @@ import Table from '../Table/Table'
 import swal from 'sweetalert'
 import { getPublishers } from '../../services/publisherService'
 import { useSearchParams } from 'react-router-dom'
-import Modal from '../Modal/Modal'
 import { FaPlusSquare } from 'react-icons/fa'
+import PublisherModal from './PublisherModal/PublisherModal'
 
 const TITLE = "Publisher Management"
 
@@ -48,12 +48,12 @@ const Publishers: React.FC = () => {
     .then(res => {
       setPublishers(res.data.publishers)
     })
-  },[searchParams])
+  },[searchParams, showAddModal, showEditModal])
 
   return (
     <section className="w-full h-screen flex flex-col">
-        {showAddModal ? <Modal  closeModal={() => setShowAddModal(false)}/> : null}
-        {showEditModal ? <Modal  closeModal={() => setShowEditModal(false)}/> : null}
+        {showAddModal ? <PublisherModal title="Add Publisher" closeModal={() => setShowAddModal(false)}/> : null}
+        {showEditModal ? <PublisherModal title="Edit Publisher" closeModal={() => setShowEditModal(false)}/> : null}
         <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center'>
             <SearchBar />

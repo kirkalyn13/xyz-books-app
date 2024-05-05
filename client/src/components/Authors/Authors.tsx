@@ -4,8 +4,8 @@ import Table from '../Table/Table'
 import swal from 'sweetalert'
 import { getAuthors } from '../../services/authorService'
 import { useSearchParams } from 'react-router-dom'
-import Modal from '../Modal/Modal'
 import { FaPlusSquare } from 'react-icons/fa'
+import AuthorModal from './AuthorModal/AuthorModal'
 
 const TITLE = "Author Management"
 
@@ -50,12 +50,12 @@ const Authors: React.FC = () => {
     .then(res => {
       setAuthors(res.data.authors)
     })
-  },[searchParams])
+  },[searchParams, showAddModal, showEditModal])
 
   return (
     <section className="w-full h-screen flex flex-col"> 
-        {showAddModal ? <Modal  closeModal={() => setShowAddModal(false)}/> : null}
-        {showEditModal ? <Modal  closeModal={() => setShowEditModal(false)}/> : null}
+        {showAddModal ? <AuthorModal title="Add Author" closeModal={() => setShowAddModal(false)}/> : null}
+        {showEditModal ? <AuthorModal title="Edit Author" closeModal={() => setShowEditModal(false)}/> : null}
         <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center'>
             <SearchBar />
@@ -66,7 +66,7 @@ const Authors: React.FC = () => {
         <Table 
           data={authors} 
           columns={columns} 
-          showModal={setShowEditModal} 
+          showModal={handleEditModal} 
           deleteItem={handleDelete}/>
     </section>
   )

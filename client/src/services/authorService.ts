@@ -14,7 +14,7 @@ export const getAuthors = async (q: string): Promise<any> => {
     }
 }
 
-export const getPublisherByID = async (id: string): Promise<any> => {
+export const getAuthorByID = async (id: string): Promise<any> => {
     try {
         return await axios.get(buildUri(getEndpoint("authors", id)))
     } catch(err) {
@@ -22,7 +22,7 @@ export const getPublisherByID = async (id: string): Promise<any> => {
     }
 }
 
-export const addBook = async (author: Author): Promise<any> => {
+export const addAuthor = async (author: Author): Promise<any> => {
     try {
         return await axios.post(buildUri(getEndpoint("authors", "", "")), author)
     } catch(err) {
@@ -30,7 +30,7 @@ export const addBook = async (author: Author): Promise<any> => {
     }
 }
 
-export const editBook = async (author: Author): Promise<any> => {
+export const editAuthor = async (author: Author): Promise<any> => {
     try {
         return await axios.put(buildUri(getEndpoint("authors", "", "")), author)
     } catch(err) {
@@ -38,7 +38,7 @@ export const editBook = async (author: Author): Promise<any> => {
     }
 }
 
-export const deleteBook = async (id: string): Promise<any> => {
+export const deleteAuthor = async (id: string): Promise<any> => {
     try {
         return await axios.delete(buildUri(getEndpoint("authors", id)))
     } catch(err) {

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import SearchBar from '../SearchBar/SearchBar'
 import Table from '../Table/Table'
-import Modal from '../Modal/Modal'
 import swal from 'sweetalert'
 import { getBooks } from '../../services/bookService'
 import { useSearchParams } from 'react-router-dom'
 import { FaPlusSquare } from 'react-icons/fa'
+import BookModal from './BookModal/BookModal'
 
 const TITLE = "Book Management"
 
@@ -55,12 +55,12 @@ const Books: React.FC = () => {
     .then(res => {
       setBooks(res.data.books)
     })
-  },[searchParams])
+  },[searchParams, showAddModal, showEditModal])
   
   return (
     <section className="w-full h-screen flex flex-col">
-        {showAddModal ? <Modal closeModal={() => setShowAddModal(false)}/> : null}
-        {showEditModal ? <Modal closeModal={() => setShowEditModal(false)} /> : null}
+        {showAddModal ? <BookModal title="Add Book" closeModal={() => setShowAddModal(false)}/> : null}
+        {showEditModal ? <BookModal title="Edit Book" closeModal={() => setShowEditModal(false)}/>  : null}
         <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center align-center'>
             <SearchBar placeholder='Enter ISBN13...'/>
