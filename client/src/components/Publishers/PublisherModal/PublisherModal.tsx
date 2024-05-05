@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Modal from '../../Modal/Modal'
 import { Publisher } from '../../../types/publisher';
 import { addPublisher, editPublisher, getPublisherByID } from '../../../services/publisherService';
-import { useSearchParams } from 'react-router-dom';
 import useSearchID from '../../../hooks/useSearchID';
 
 interface PublisherModalProps {
@@ -25,7 +24,7 @@ const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal }) =>
             .then(() => closeModal())
     }
 
-    let disableSubmit = publisher.name === ""
+    let disableSubmit: boolean = publisher.name === ""
     const submitHandler: Function = () => title.toLowerCase().includes("add") ? addPublisherHandler() : editPublisherHandler()
 
     useEffect(() => {
@@ -47,7 +46,7 @@ const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal }) =>
                     type="text"
                     value={publisher ? publisher.name : ""}
                     onChange={(e) => setPublisher({...publisher, name: e.target.value})}
-                    placeholder="First Name..." />
+                    placeholder="Publisher Name..." />
             </div>
         </Modal>
     )

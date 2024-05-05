@@ -31,8 +31,8 @@ const Authors: React.FC = () => {
   }
 
   const handleEdit = (id: number): void => {
-      updateID(id.toString())
-      setShowEditModal(true)
+    updateID(id.toString())
+    setShowEditModal(true)
   }
 
   const closeEditModal = (): void => {
