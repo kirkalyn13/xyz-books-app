@@ -6,6 +6,7 @@ import { deleteBook, getBooks } from '../../services/bookService'
 import { useSearchParams } from 'react-router-dom'
 import { FaPlusSquare } from 'react-icons/fa'
 import BookModal from './BookModal/BookModal'
+import useSearchID from '../../hooks/useSearchID'
 
 const TITLE = "Book Management"
 
@@ -25,6 +26,7 @@ const Books: React.FC = () => {
   const [ showEditModal, setShowEditModal] = useState(false)
   const [ books, setBooks ] = useState([])
   const [ searchParams ] = useSearchParams()
+  const { updateID, clearID } = useSearchID()
 
   const loadBooks = (): void => {
     getBooks(searchParams.get("q") ?? "")
@@ -33,8 +35,14 @@ const Books: React.FC = () => {
     })
   }
   
-  const handleEdit = (): void  => {
+  const handleEdit = (id: number): void  => {
+    updateID(id.toString())
     setShowEditModal(true)
+  }
+
+  const closeEditModal = (): void => {
+    clearID()
+    setShowAddModal(false)
   }
 
   const handleDelete = (id: number) => {
@@ -47,7 +55,7 @@ const Books: React.FC = () => {
     })
     .then((willDelete) => {
       if (willDelete) {
-        deleteBook(id).then(() => {
+        deleteBook(id.toString()).then(() => {
           swal("Book has been deleted", {
             icon: "success",
           })
@@ -65,7 +73,7 @@ const Books: React.FC = () => {
   
   return (
     <section className="w-full h-screen flex flex-col">
-        {showAddModal ? <BookModal title="Add Book" closeModal={() => setShowAddModal(false)}/> : null}
+        {showAddModal ? <BookModal title="Add Book" closeModal={() => closeEditModal()}/> : null}
         {showEditModal ? <BookModal title="Edit Book" closeModal={() => setShowEditModal(false)}/>  : null}
         <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center align-center'>

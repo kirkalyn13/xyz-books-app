@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '../../Modal/Modal'
-import { addAuthor, editAuthor, getAuthorByID } from '../../../services/authorService';
-import { Author } from '../../../types/author';
-import { useSearchParams } from 'react-router-dom';
-import useSearchID from '../../../hooks/useSearchID';
+import { addAuthor, editAuthor, getAuthorByID } from '../../../services/authorService'
+import { Author } from '../../../types/author'
+import useSearchID from '../../../hooks/useSearchID'
 
 interface AuthorModalProps {
     title: string;
@@ -29,7 +28,7 @@ const AuthorModal: React.FC<AuthorModalProps> = ({ title, closeModal, data }) =>
             .then(() => closeModal())
     }
 
-    let disableSubmit = author.first_name === "" || author.last_name === ""
+    let disableSubmit: boolean = author.first_name === "" || author.last_name === ""
     const submitHandler: Function = () => title.toLowerCase().includes("add") ? addAuthorHandler() : editAuthorHandler()
 
     useEffect(() => {
