@@ -41,6 +41,21 @@ func GetBookByISBN13(isbn13 string) (model.Book, error) {
 	return book, nil
 }
 
+// GetBookByID fetches a Book based on a given ID
+func GetBookByID(id string) (model.Book, error) {
+	book, err := repository.GetBookByID(id)
+
+	if err != nil {
+		return model.Book{}, err
+	}
+
+	publisher, _ := repository.GetPublisherByID(strconv.Itoa(int(*book.PublisherID)))
+	publisher.Books = []*model.Book{}
+	book.Publisher = publisher
+
+	return book, nil
+}
+
 // AddBook adds a new Book entity
 func AddBook(book model.Book) (model.Book, error) {
 	result, err := repository.AddBook(book)

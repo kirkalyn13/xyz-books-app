@@ -9,7 +9,8 @@ import (
 func RegisterRoutes(r *gin.Engine) {
 	// GET Requests
 	r.GET("/api/v1/books", controller.GetBooks)
-	r.GET("/api/v1/books/:isbn13", controller.GetBookByISBN13)
+	r.GET("/api/v1/books/:id", controller.GetBookByID)
+	r.GET("/api/v1/books/isbn13/:isbn13", controller.GetBookByISBN13)
 	r.GET("/api/v1/authors", controller.GetAuthors)
 	r.GET("/api/v1/authors/:id", controller.GetAuthorByID)
 	r.GET("/api/v1/publishers", controller.GetPublishers)
