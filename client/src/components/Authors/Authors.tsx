@@ -19,7 +19,7 @@ const Authors: React.FC = () => {
   const [ showAddModal, setShowAddModal] = useState(false)
   const [ showEditModal, setShowEditModal] = useState(false)
   const [ authors, setAuthors ] = useState([])
-  const [ searchParams ] = useSearchParams()
+  const [ searchParams, setSearchParams ] = useSearchParams()
 
   const loadAuthors = ():void => {
     getAuthors(searchParams.get("q") ?? "")
@@ -28,8 +28,20 @@ const Authors: React.FC = () => {
     })
   }
 
-  const handleEdit = (): void  => {
-    setShowEditModal(true)
+  const handleEdit = (id: number): void => {
+    setSearchParams((prev: URLSearchParams) => {
+      prev.set("id", id.toString())
+      return prev
+    }, { replace: true })
+      setShowEditModal(true)
+  }
+
+  const closeEditModal = (): void => {
+    setSearchParams((prev: URLSearchParams) => {
+      prev.set("id", "")
+      return prev
+    })
+    setShowAddModal(false)
   }
 
   const handleDelete = (id: number) => {
@@ -42,7 +54,7 @@ const Authors: React.FC = () => {
     })
     .then((willDelete) => {
       if (willDelete) {
-        deleteAuthor(id).then(() => {
+        deleteAuthor(id.toString()).then(() => {
           swal("Author has been deleted.", {
             icon: "success",
           })
@@ -60,7 +72,7 @@ const Authors: React.FC = () => {
 
   return (
     <section className="w-full h-screen flex flex-col"> 
-        {showAddModal ? <AuthorModal title="Add Author" closeModal={() => setShowAddModal(false)}/> : null}
+        {showAddModal ? <AuthorModal title="Add Author" closeModal={() => closeEditModal()}/> : null}
         {showEditModal ? <AuthorModal title="Edit Author" closeModal={() => setShowEditModal(false)}/> : null}
         <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center'>
