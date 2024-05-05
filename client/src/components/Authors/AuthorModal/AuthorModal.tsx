@@ -3,6 +3,7 @@ import Modal from '../../Modal/Modal'
 import { addAuthor, editAuthor, getAuthorByID } from '../../../services/authorService';
 import { Author } from '../../../types/author';
 import { useSearchParams } from 'react-router-dom';
+import useSearchID from '../../../hooks/useSearchID';
 
 interface AuthorModalProps {
     title: string;
@@ -16,7 +17,7 @@ const AuthorModal: React.FC<AuthorModalProps> = ({ title, closeModal, data }) =>
         last_name: "",
         middle_name: ""
     })
-    const [ searchParams ] = useSearchParams()
+    const { getSearchID } = useSearchID()
 
     const addAuthorHandler = (): void => {
         if (!disableSubmit) addAuthor(author)
@@ -32,8 +33,8 @@ const AuthorModal: React.FC<AuthorModalProps> = ({ title, closeModal, data }) =>
     const submitHandler: Function = () => title.toLowerCase().includes("add") ? addAuthorHandler() : editAuthorHandler()
 
     useEffect(() => {
-        if (title.toLowerCase().includes("edit") && searchParams.get("id") !== null) {
-            getAuthorByID(searchParams.get("id")!).then((res) => {
+        if (title.toLowerCase().includes("edit") && getSearchID() !== null) {
+            getAuthorByID(getSearchID()).then((res) => {
                 setAuthor(res.data.author)
             })
         }

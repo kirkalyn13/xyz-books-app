@@ -6,6 +6,7 @@ import { deletePublisher, getPublishers } from '../../services/publisherService'
 import { useSearchParams } from 'react-router-dom'
 import { FaPlusSquare } from 'react-icons/fa'
 import PublisherModal from './PublisherModal/PublisherModal'
+import useSearchID from '../../hooks/useSearchID'
 
 const TITLE = "Publisher Management"
 
@@ -17,7 +18,8 @@ const Publishers: React.FC = () => {
   const [ showAddModal, setShowAddModal] = useState(false)
   const [ showEditModal, setShowEditModal] = useState(false)
   const [ publishers, setPublishers ] = useState([])
-  const [ searchParams, setSearchParams ] = useSearchParams()
+  const [ searchParams ] = useSearchParams()
+  const { updateID, clearID } = useSearchID()
 
   const loadPublishers = (): void => {
     getPublishers(searchParams.get("q") ?? "")
@@ -27,18 +29,12 @@ const Publishers: React.FC = () => {
   }
 
   const handleEdit = (id: number): void => {
-    setSearchParams((prev: URLSearchParams) => {
-      prev.set("id", id.toString())
-      return prev
-    }, { replace: true })
-      setShowEditModal(true)
+    updateID(id.toString())
+    setShowEditModal(true)
   }
 
   const closeEditModal = (): void => {
-    setSearchParams((prev: URLSearchParams) => {
-      prev.set("id", "")
-      return prev
-    })
+    clearID()
     setShowAddModal(false)
   }
 

@@ -3,6 +3,7 @@ import Modal from '../../Modal/Modal'
 import { Publisher } from '../../../types/publisher';
 import { addPublisher, editPublisher, getPublisherByID } from '../../../services/publisherService';
 import { useSearchParams } from 'react-router-dom';
+import useSearchID from '../../../hooks/useSearchID';
 
 interface PublisherModalProps {
     title: string;
@@ -11,7 +12,7 @@ interface PublisherModalProps {
 
 const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal }) => {
     const [publisher, setPublisher] = useState<Publisher>({name: ""})
-    const [ searchParams ] = useSearchParams()
+    const { getSearchID } = useSearchID()
 
     const addPublisherHandler = (): void => {
         if (!disableSubmit) addPublisher(publisher)
@@ -28,8 +29,8 @@ const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal }) =>
     const submitHandler: Function = () => title.toLowerCase().includes("add") ? addPublisherHandler() : editPublisherHandler()
 
     useEffect(() => {
-        if (title.toLowerCase().includes("edit") && searchParams.get("id") !== null) {
-            getPublisherByID(searchParams.get("id")!).then((res) => {
+        if (title.toLowerCase().includes("edit") && getSearchID() !== null) {
+            getPublisherByID(getSearchID()).then((res) => {
                 setPublisher(res.data.publisher)
             })
         }

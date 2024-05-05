@@ -6,6 +6,7 @@ import { deleteAuthor, getAuthors } from '../../services/authorService'
 import { useSearchParams } from 'react-router-dom'
 import { FaPlusSquare } from 'react-icons/fa'
 import AuthorModal from './AuthorModal/AuthorModal'
+import useSearchID from '../../hooks/useSearchID'
 
 const TITLE = "Author Management"
 
@@ -19,7 +20,8 @@ const Authors: React.FC = () => {
   const [ showAddModal, setShowAddModal] = useState(false)
   const [ showEditModal, setShowEditModal] = useState(false)
   const [ authors, setAuthors ] = useState([])
-  const [ searchParams, setSearchParams ] = useSearchParams()
+  const [ searchParams ] = useSearchParams()
+  const { updateID, clearID } = useSearchID()
 
   const loadAuthors = ():void => {
     getAuthors(searchParams.get("q") ?? "")
@@ -29,18 +31,12 @@ const Authors: React.FC = () => {
   }
 
   const handleEdit = (id: number): void => {
-    setSearchParams((prev: URLSearchParams) => {
-      prev.set("id", id.toString())
-      return prev
-    }, { replace: true })
+      updateID(id.toString())
       setShowEditModal(true)
   }
 
   const closeEditModal = (): void => {
-    setSearchParams((prev: URLSearchParams) => {
-      prev.set("id", "")
-      return prev
-    })
+    clearID()
     setShowAddModal(false)
   }
 
