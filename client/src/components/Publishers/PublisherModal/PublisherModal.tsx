@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '../../Modal/Modal'
 import { Publisher } from '../../../types/publisher';
-import { addPublisher, editPublisher } from '../../../services/publisherService';
+import { addPublisher, editPublisher, getPublisherByID } from '../../../services/publisherService';
+import { useSearchParams } from 'react-router-dom';
 
 interface PublisherModalProps {
     title: string;
     closeModal: Function;
-    data?: Publisher;
 }
 
-const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal, data }) => {
+const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal }) => {
     const [publisher, setPublisher] = useState<Publisher>({name: ""})
+    const [ searchParams ] = useSearchParams()
 
     const addPublisherHandler = (): void => {
         if (!disableSubmit) addPublisher(publisher)
@@ -19,7 +20,7 @@ const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal, data
     }
 
     const editPublisherHandler = (): void => {
-        if (!disableSubmit) editPublisher(publisher)
+        if (!disableSubmit) editPublisher(publisher.id!, publisher)
             .then(() => closeModal())
     }
 
@@ -27,7 +28,11 @@ const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal, data
     const submitHandler: Function = () => title.toLowerCase().includes("add") ? addPublisherHandler() : editPublisherHandler()
 
     useEffect(() => {
-        if (data) setPublisher(data)
+        if (title.toLowerCase().includes("edit") && searchParams.get("id") !== null) {
+            getPublisherByID(searchParams.get("id")!).then((res) => {
+                setPublisher(res.data.publisher)
+            })
+        }
     },[])
 
     return (
@@ -40,7 +45,7 @@ const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal, data
                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     type="text"
                     value={publisher ? publisher.name : ""}
-                    onChange={(e) => setPublisher({name: e.target.value})}
+                    onChange={(e) => setPublisher({...publisher, name: e.target.value})}
                     placeholder="First Name..." />
             </div>
         </Modal>

@@ -33,7 +33,7 @@ const Books: React.FC = () => {
     })
   }
   
-  const handleEditModal = (): void  => {
+  const handleEdit = (): void  => {
     setShowEditModal(true)
   }
 
@@ -71,13 +71,13 @@ const Books: React.FC = () => {
         <div className='w-full mt-4 text-3xl flex justify-center align-center'>
             <SearchBar placeholder='Enter ISBN13...'/>
             <FaPlusSquare 
-              className="text-4xl text-slate-800 me-4"
+              className="text-4xl text-slate-800 me-4 hover:text-sky-300"
               onClick={() => setShowAddModal(true)}/>
         </div>
         <Table 
           data={books} 
           columns={columns} 
-          showModal={handleEditModal} 
+          handleEdit={handleEdit}  
           deleteItem={handleDelete}/>
     </section>
   )

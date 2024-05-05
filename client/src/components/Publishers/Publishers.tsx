@@ -17,7 +17,7 @@ const Publishers: React.FC = () => {
   const [ showAddModal, setShowAddModal] = useState(false)
   const [ showEditModal, setShowEditModal] = useState(false)
   const [ publishers, setPublishers ] = useState([])
-  const [ searchParams ] = useSearchParams()
+  const [ searchParams, setSearchParams ] = useSearchParams()
 
   const loadPublishers = (): void => {
     getPublishers(searchParams.get("q") ?? "")
@@ -26,8 +26,20 @@ const Publishers: React.FC = () => {
     })
   }
 
-  const handleEditModal = (): void => {
-    setShowEditModal(true)
+  const handleEdit = (id: number): void => {
+    setSearchParams((prev: URLSearchParams) => {
+      prev.set("id", id.toString())
+      return prev
+    }, { replace: true })
+      setShowEditModal(true)
+  }
+
+  const closeEditModal = (): void => {
+    setSearchParams((prev: URLSearchParams) => {
+      prev.set("id", "")
+      return prev
+    })
+    setShowAddModal(false)
   }
 
   const handleDelete = (id: number) => {
@@ -40,7 +52,7 @@ const Publishers: React.FC = () => {
     })
     .then((willDelete) => {
       if (willDelete) {
-        deletePublisher(id).then(() => {
+        deletePublisher(id.toString()).then(() => {
           swal("Publisher item has been deleted!", {
             icon: "success",
           })
@@ -58,19 +70,19 @@ const Publishers: React.FC = () => {
 
   return (
     <section className="w-full h-screen flex flex-col">
-        {showAddModal ? <PublisherModal title="Add Publisher" closeModal={() => setShowAddModal(false)}/> : null}
+        {showAddModal ? <PublisherModal title="Add Publisher" closeModal={() => closeEditModal()}/> : null}
         {showEditModal ? <PublisherModal title="Edit Publisher" closeModal={() => setShowEditModal(false)}/> : null}
         <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
         <div className='w-full mt-4 text-3xl flex justify-center'>
             <SearchBar />
             <FaPlusSquare
-              className="text-4xl text-slate-800"
+              className="text-4xl text-slate-800 hover:text-sky-300"
               onClick={() => setShowAddModal(true)}/>
         </div>
         <Table 
           data={publishers} 
           columns={columns} 
-          showModal={handleEditModal} 
+          handleEdit={handleEdit} 
           deleteItem={handleDelete}/>
     </section>
   )

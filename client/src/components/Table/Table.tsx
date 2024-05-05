@@ -9,19 +9,19 @@ type Column = {
 interface TableProps {
   data: any[]
   columns: Column[]
-  showModal: Function
+  handleEdit: Function
   deleteItem: Function
 }
 
 
-const Table: React.FC<TableProps> = ({ data, columns, showModal, deleteItem }) => {
+const Table: React.FC<TableProps> = ({ data, columns, handleEdit, deleteItem }) => {
   const columnsWithActions = (columns: Column[]) => [...columns, { header: 'Actions', accessor: 'actions' }]
 
   const getActionsRow = (id: number): JSX.Element => { 
     return (
       <div className="flex justify-around align-center">
-        <FaEdit className='text-xl text-zinc-600' onClick={() => showModal()}/>
-        <FaTrash className='text-xl text-zinc-600' onClick={() => deleteItem(id)}/>
+        <FaEdit className='text-xl text-zinc-600 hover:text-sky-300' onClick={() => handleEdit(id)}/>
+        <FaTrash className='text-xl text-zinc-600 hover:text-sky-300' onClick={() => deleteItem(id)}/>
       </div>
     )
   }

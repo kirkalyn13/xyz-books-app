@@ -30,15 +30,15 @@ export const addAuthor = async (author: Author): Promise<any> => {
     }
 }
 
-export const editAuthor = async (author: Author): Promise<any> => {
+export const editAuthor = async (id: string, author: Author): Promise<any> => {
     try {
-        return await axios.put(buildUri(getEndpoint("authors", "", "")), author)
+        return await axios.put(buildUri(getEndpoint("authors", id, "")), author)
     } catch(err) {
         console.error(err)
     }
 }
 
-export const deleteAuthor = async (id: number): Promise<any> => {
+export const deleteAuthor = async (id: string): Promise<any> => {
     try {
         return await axios.delete(buildUri(getEndpoint("authors", id)))
     } catch(err) {

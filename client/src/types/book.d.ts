@@ -5,10 +5,10 @@ export type Book = {
     title: string
     isbn13: string
     isbn10: string
-    listPrice: number
-    publicationYear: number
-    imageURL: string
+    list_price: number
+    publication_year: number
+    image_url: string
     edition: string
-    publisherID: number
+    publisher_id: number
     authors: Author[]
 }

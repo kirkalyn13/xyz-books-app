@@ -28,7 +28,7 @@ const Authors: React.FC = () => {
     })
   }
 
-  const handleEditModal = (): void  => {
+  const handleEdit = (): void  => {
     setShowEditModal(true)
   }
 
@@ -66,13 +66,13 @@ const Authors: React.FC = () => {
         <div className='w-full mt-4 text-3xl flex justify-center'>
             <SearchBar />
             <FaPlusSquare 
-              className="text-4xl text-slate-800"
+              className="text-4xl text-slate-800 hover:bg-sky-300"
               onClick={() => setShowAddModal(true)}/>
         </div>
         <Table 
           data={authors} 
           columns={columns} 
-          showModal={handleEditModal} 
+          handleEdit={handleEdit} 
           deleteItem={handleDelete}/>
     </section>
   )
