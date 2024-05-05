@@ -24,7 +24,6 @@ export const getPublisherByID = async (id: string): Promise<any> => {
 
 export const addPublisher = async (publisher: Publisher): Promise<any> => {
     try {
-        console.log(buildUri(getEndpoint("publishers", "", "")))
         return await axios.post(buildUri(getEndpoint("publishers", "", "")), publisher)
     } catch(err) {
         console.error(err)
@@ -33,7 +32,6 @@ export const addPublisher = async (publisher: Publisher): Promise<any> => {
 
 export const editPublisher = async (id: string, publisher: Publisher): Promise<any> => {
     try {
-        console.log(buildUri(getEndpoint("publishers", id, "")), publisher)
         return await axios.put(buildUri(getEndpoint("publishers", id, "")), publisher)
     } catch(err) {
         console.error(err)
