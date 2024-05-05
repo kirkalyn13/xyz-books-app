@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SearchBar from '../SearchBar/SearchBar'
 import Table from '../Table/Table'
 import swal from 'sweetalert'
-import { getBooks } from '../../services/bookService'
+import { deleteBook, getBooks } from '../../services/bookService'
 import { useSearchParams } from 'react-router-dom'
 import { FaPlusSquare } from 'react-icons/fa'
 import BookModal from './BookModal/BookModal'
@@ -26,35 +26,41 @@ const Books: React.FC = () => {
   const [ books, setBooks ] = useState([])
   const [ searchParams ] = useSearchParams()
 
+  const loadBooks = (): void => {
+    getBooks(searchParams.get("q") ?? "")
+    .then(res => {
+      setBooks(res.data.books)
+    })
+  }
+  
   const handleEditModal = (): void  => {
     setShowEditModal(true)
   }
 
-  const handleDelete = () => {
+  const handleDelete = (id: number) => {
     swal({
       title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this item!",
+      text: "Once deleted, you will not be able to recover this item.",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
     .then((willDelete) => {
       if (willDelete) {
-        // Perform delete action here
-        swal("Your item has been deleted!", {
-          icon: "success",
-        });
+        deleteBook(id).then(() => {
+          swal("Book has been deleted", {
+            icon: "success",
+          })
+          loadBooks()
+        })
       } else {
-        swal("Your item is safe!")
+        swal("Book retained.")
       }
     })
   }
 
   useEffect(() => {
-    getBooks(searchParams.get("q") ?? "")
-    .then(res => {
-      setBooks(res.data.books)
-    })
+    loadBooks()
   },[searchParams, showAddModal, showEditModal])
   
   return (

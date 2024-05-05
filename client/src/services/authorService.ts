@@ -38,7 +38,7 @@ export const editAuthor = async (author: Author): Promise<any> => {
     }
 }
 
-export const deleteAuthor = async (id: string): Promise<any> => {
+export const deleteAuthor = async (id: number): Promise<any> => {
     try {
         return await axios.delete(buildUri(getEndpoint("authors", id)))
     } catch(err) {

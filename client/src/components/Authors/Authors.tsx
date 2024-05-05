@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import SearchBar from '../SearchBar/SearchBar'
 import Table from '../Table/Table'
 import swal from 'sweetalert'
-import { getAuthors } from '../../services/authorService'
+import { deleteAuthor, getAuthors } from '../../services/authorService'
 import { useSearchParams } from 'react-router-dom'
 import { FaPlusSquare } from 'react-icons/fa'
 import AuthorModal from './AuthorModal/AuthorModal'
@@ -21,35 +21,41 @@ const Authors: React.FC = () => {
   const [ authors, setAuthors ] = useState([])
   const [ searchParams ] = useSearchParams()
 
+  const loadAuthors = ():void => {
+    getAuthors(searchParams.get("q") ?? "")
+    .then(res => {
+      setAuthors(res.data.authors)
+    })
+  }
+
   const handleEditModal = (): void  => {
     setShowEditModal(true)
   }
 
-  const handleDelete = () => {
+  const handleDelete = (id: number) => {
     swal({
       title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this item!",
+      text: "Once deleted, you will not be able to recover this item.",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
     .then((willDelete) => {
       if (willDelete) {
-        // Perform delete action here
-        swal("Poof! Your item has been deleted!", {
-          icon: "success",
-        });
+        deleteAuthor(id).then(() => {
+          swal("Author has been deleted.", {
+            icon: "success",
+          })
+          loadAuthors()
+        })
       } else {
-        swal("Your item is safe!")
+        swal("Author retained.")
       }
     })
   }
   
   useEffect(() => {
-    getAuthors(searchParams.get("q") ?? "")
-    .then(res => {
-      setAuthors(res.data.authors)
-    })
+    loadAuthors()
   },[searchParams, showAddModal, showEditModal])
 
   return (

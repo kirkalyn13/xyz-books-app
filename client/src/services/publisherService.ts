@@ -39,7 +39,7 @@ export const editPublisher = async (publisher: Publisher): Promise<any> => {
     }
 }
 
-export const deletePublisher = async (id: string): Promise<any> => {
+export const deletePublisher = async (id: number): Promise<any> => {
     try {
         return await axios.delete(buildUri(getEndpoint("publishers", id)))
     } catch(err) {

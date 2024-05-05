@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import SearchBar from '../SearchBar/SearchBar'
 import Table from '../Table/Table'
 import swal from 'sweetalert'
-import { getPublishers } from '../../services/publisherService'
+import { deletePublisher, getPublishers } from '../../services/publisherService'
 import { useSearchParams } from 'react-router-dom'
 import { FaPlusSquare } from 'react-icons/fa'
 import PublisherModal from './PublisherModal/PublisherModal'
@@ -19,35 +19,41 @@ const Publishers: React.FC = () => {
   const [ publishers, setPublishers ] = useState([])
   const [ searchParams ] = useSearchParams()
 
+  const loadPublishers = (): void => {
+    getPublishers(searchParams.get("q") ?? "")
+    .then(res => {
+      setPublishers(res.data.publishers)
+    })
+  }
+
   const handleEditModal = (): void => {
     setShowEditModal(true)
   }
 
-  const handleDelete = () => {
+  const handleDelete = (id: number) => {
     swal({
       title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this item!",
+      text: "Once deleted, you will not be able to recover this item.",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
     .then((willDelete) => {
       if (willDelete) {
-        // Perform delete action here
-        swal("Poof! Your item has been deleted!", {
-          icon: "success",
-        });
+        deletePublisher(id).then(() => {
+          swal("Publisher item has been deleted!", {
+            icon: "success",
+          })
+          loadPublishers()
+        })
       } else {
-        swal("Your item is safe!")
+        swal("Publisher retained.")
       }
     })
   }
   
   useEffect(() => {
-    getPublishers(searchParams.get("q") ?? "")
-    .then(res => {
-      setPublishers(res.data.publishers)
-    })
+    loadPublishers()
   },[searchParams, showAddModal, showEditModal])
 
   return (
