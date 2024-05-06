@@ -79,8 +79,8 @@ const Books: React.FC = () => {
         <div className='w-full mt-4 text-3xl flex justify-center align-center'>
             <SearchBar placeholder='Enter ISBN13...'/>
             <FaPlusSquare 
-              className="text-4xl text-slate-800 me-4 hover:text-sky-300"
-              onClick={() => setShowAddModal(true)}/>
+                className="text-4xl text-slate-800 me-4 hover:text-sky-300"
+                onClick={() => setShowAddModal(true)}/>
         </div>
         <Table 
           data={books} 

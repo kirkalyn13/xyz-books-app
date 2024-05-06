@@ -19,7 +19,7 @@ const Table: React.FC<TableProps> = ({ data, columns, handleEdit, deleteItem }) 
 
   const getActionsRow = (id: number): JSX.Element => { 
     return (
-      <div className="flex justify-around align-center">
+      <div className="w-24 flex justify-around align-center">
         <FaEdit className='text-xl text-zinc-600 hover:text-sky-300' onClick={() => handleEdit(id)}/>
         <FaTrash className='text-xl text-zinc-600 hover:text-sky-300' onClick={() => deleteItem(id)}/>
       </div>
@@ -39,7 +39,7 @@ const Table: React.FC<TableProps> = ({ data, columns, handleEdit, deleteItem }) 
         <thead>
           <tr className="bg-slate-800 text-white">
             {columnsWithActions(columns).map((column: Column) => (
-              <th key={column.accessor} className="px-4 py-2">
+              <th key={column.accessor} className={`px-4 py-2 ${column.accessor === "actions" && "w-32"}`} >
                 {column.header}
               </th>
             ))}
