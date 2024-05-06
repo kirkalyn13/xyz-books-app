@@ -53,6 +53,10 @@ func EditBook(book model.Book, id string) (model.Book, error) {
 		return model.Book{}, result.Error
 	}
 
+	if result := db.DB.Where("id = ?", id).Updates(&book); result.Error != nil {
+		return model.Book{}, result.Error
+	}
+
 	if err := db.DB.Model(&book).Association("Authors").Replace(book.Authors); err != nil {
 		return model.Book{}, err
 	}
@@ -62,6 +66,10 @@ func EditBook(book model.Book, id string) (model.Book, error) {
 
 // DeleteBook deletes a Book entity from the database
 func DeleteBook(id string) error {
+	if result := db.DB.Where("id = ?", id).First(&model.Book{}); result.Error != nil {
+		return result.Error
+	}
+
 	if result := db.DB.Where("id = ?", id).Delete(&model.Book{}); result.Error != nil {
 		return result.Error
 	}

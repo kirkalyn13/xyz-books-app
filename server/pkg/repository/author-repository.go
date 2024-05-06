@@ -40,6 +40,10 @@ func AddAuthor(author model.Author) (model.Author, error) {
 
 // EditAuthor edits a Author entity from the database
 func EditAuthor(author model.Author, id string) (model.Author, error) {
+	if result := db.DB.Where("id = ?", id).First(&author); result.Error != nil {
+		return model.Author{}, result.Error
+	}
+
 	if result := db.DB.Where("id = ?", id).Updates(&author); result.Error != nil {
 		return model.Author{}, result.Error
 	}
@@ -49,6 +53,10 @@ func EditAuthor(author model.Author, id string) (model.Author, error) {
 
 // DeleteAuthor deletes a Author entity from the database
 func DeleteAuthor(id string) error {
+	if result := db.DB.Where("id = ?", id).First(&model.Author{}); result.Error != nil {
+		return result.Error
+	}
+
 	if result := db.DB.Delete(&model.Author{}, "id = ?", id); result.Error != nil {
 		return result.Error
 	}

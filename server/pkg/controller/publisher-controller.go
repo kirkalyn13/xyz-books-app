@@ -16,7 +16,7 @@ func GetPublishers(c *gin.Context) {
 	results, err := service.GetPublishers(searchQuery)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -33,7 +33,11 @@ func GetPublisherByID(c *gin.Context) {
 	result, err := service.GetPublisherByID(id)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		if err.Error() == "record not found" {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Publisher not found."})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -49,7 +53,7 @@ func AddPublisher(c *gin.Context) {
 	err := c.Bind(&publisher)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -57,7 +61,11 @@ func AddPublisher(c *gin.Context) {
 	result, err := service.AddPublisher(publisher)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		if err.Error() == "record not found" {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Publisher not found."})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -73,7 +81,7 @@ func EditPublisher(c *gin.Context) {
 	err := c.Bind(&publisher)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -81,7 +89,11 @@ func EditPublisher(c *gin.Context) {
 	result, err := service.EditPublisher(publisher, id)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		if err.Error() == "record not found" {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Publisher not found."})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -99,7 +111,11 @@ func DeletePublisher(c *gin.Context) {
 	err := service.DeletePublisher(id)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		if err.Error() == "record not found" {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Publisher not found."})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

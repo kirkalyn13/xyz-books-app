@@ -38,6 +38,10 @@ func AddPublisher(publisher model.Publisher) (model.Publisher, error) {
 
 // EditPublisher edits a Publisher entity from the database
 func EditPublisher(publisher model.Publisher, id string) (model.Publisher, error) {
+	if result := db.DB.Where("id = ?", id).First(&publisher); result.Error != nil {
+		return model.Publisher{}, result.Error
+	}
+
 	if result := db.DB.Where("id = ?", id).Updates(&publisher); result.Error != nil {
 		return model.Publisher{}, result.Error
 	}
@@ -47,6 +51,10 @@ func EditPublisher(publisher model.Publisher, id string) (model.Publisher, error
 
 // DeletePublisher deletes a Publisher entity from the database
 func DeletePublisher(id string) error {
+	if result := db.DB.Where("id = ?", id).First(&model.Publisher{}); result.Error != nil {
+		return result.Error
+	}
+
 	if result := db.DB.Delete(&model.Publisher{}, "id = ?", id); result.Error != nil {
 		return result.Error
 	}
