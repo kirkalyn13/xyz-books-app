@@ -17,7 +17,7 @@ func GetPublishers(c *gin.Context) {
 
 	if err != nil {
 		log.Fatal(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -34,7 +34,7 @@ func GetPublisherByID(c *gin.Context) {
 
 	if err != nil {
 		log.Fatal(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -50,7 +50,7 @@ func AddPublisher(c *gin.Context) {
 
 	if err != nil {
 		log.Fatal(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -58,7 +58,7 @@ func AddPublisher(c *gin.Context) {
 
 	if err != nil {
 		log.Fatal(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -74,7 +74,7 @@ func EditPublisher(c *gin.Context) {
 
 	if err != nil {
 		log.Fatal(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -82,7 +82,7 @@ func EditPublisher(c *gin.Context) {
 
 	if err != nil {
 		log.Fatal(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -100,7 +100,7 @@ func DeletePublisher(c *gin.Context) {
 
 	if err != nil {
 		log.Fatal(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 

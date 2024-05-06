@@ -9,11 +9,9 @@ import (
 func GetAuthors(searchQuery string) ([]model.Author, error) {
 	var authors []model.Author
 
-	result := db.DB.Preload("Books").
+	if result := db.DB.Preload("Books").
 		Where("first_name LIKE ? OR last_name LIKE ? OR middle_name LIKE ?", "%"+searchQuery+"%", "%"+searchQuery+"%", "%"+searchQuery+"%").
-		Find(&authors)
-
-	if result.Error != nil {
+		Find(&authors); result.Error != nil {
 		return []model.Author{}, result.Error
 	}
 
@@ -24,9 +22,7 @@ func GetAuthors(searchQuery string) ([]model.Author, error) {
 func GetAuthorByID(id string) (model.Author, error) {
 	var author model.Author
 
-	result := db.DB.Preload("Books").Find(&author, id)
-
-	if result.Error != nil {
+	if result := db.DB.Preload("Books").First(&author, id); result.Error != nil {
 		return model.Author{}, result.Error
 	}
 
@@ -35,9 +31,7 @@ func GetAuthorByID(id string) (model.Author, error) {
 
 // AddAuthor adds a new Author entity from the database
 func AddAuthor(author model.Author) (model.Author, error) {
-	result := db.DB.Create(&author)
-
-	if result.Error != nil {
+	if result := db.DB.Create(&author); result.Error != nil {
 		return model.Author{}, result.Error
 	}
 
@@ -46,9 +40,7 @@ func AddAuthor(author model.Author) (model.Author, error) {
 
 // EditAuthor edits a Author entity from the database
 func EditAuthor(author model.Author, id string) (model.Author, error) {
-	result := db.DB.Where("id = ?", id).Updates(&author)
-
-	if result.Error != nil {
+	if result := db.DB.Where("id = ?", id).Updates(&author); result.Error != nil {
 		return model.Author{}, result.Error
 	}
 
@@ -57,9 +49,7 @@ func EditAuthor(author model.Author, id string) (model.Author, error) {
 
 // DeleteAuthor deletes a Author entity from the database
 func DeleteAuthor(id string) error {
-	result := db.DB.Delete(&model.Author{}, "id = ?", id)
-
-	if result.Error != nil {
+	if result := db.DB.Delete(&model.Author{}, "id = ?", id); result.Error != nil {
 		return result.Error
 	}
 
