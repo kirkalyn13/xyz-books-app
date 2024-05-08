@@ -17,7 +17,7 @@ func GetPublishers(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -34,11 +34,11 @@ func GetPublisherByID(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err.Error() == "record not found" {
+		if err == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Publisher not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -54,7 +54,7 @@ func AddPublisher(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -62,11 +62,11 @@ func AddPublisher(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err.Error() == "record not found" {
+		if err == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Publisher not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -82,7 +82,7 @@ func EditPublisher(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -90,11 +90,11 @@ func EditPublisher(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err.Error() == "record not found" {
+		if err == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Publisher not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -112,11 +112,11 @@ func DeletePublisher(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err.Error() == "record not found" {
+		if err == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Publisher not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
