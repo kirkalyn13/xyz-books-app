@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/kirkalyn13/xyz-books-app/pkg/model"
+	"github.com/kirkalyn13/xyz-books-app/pkg/mq"
 	"github.com/kirkalyn13/xyz-books-app/pkg/repository"
 )
 
@@ -63,6 +64,8 @@ func AddBook(book model.Book) (model.Book, error) {
 	if err != nil {
 		return model.Book{}, err
 	}
+
+	mq.PublishBook(mq.BookQueue, result)
 
 	return result, nil
 }
