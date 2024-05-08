@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"strconv"
 
 	"github.com/kirkalyn13/xyz-books-app/pkg/model"
@@ -59,6 +60,9 @@ func GetBookByID(id string) (model.Book, error) {
 
 // AddBook adds a new Book entity
 func AddBook(book model.Book) (model.Book, error) {
+	if book.ISBN10 == "" && book.ISBN13 == "" {
+		return model.Book{}, errors.New("Must have ISBN 10 and/or ISBN 13.")
+	}
 	result, err := repository.AddBook(book)
 
 	if err != nil {

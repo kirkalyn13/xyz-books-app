@@ -18,11 +18,11 @@ func GetBooks(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err == "record not found" {
+		if err.Error() == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Book not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -44,11 +44,11 @@ func GetBookByISBN13(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err == "record not found" {
+		if err.Error() == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Book not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -65,11 +65,11 @@ func GetBookByID(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err == "record not found" {
+		if err.Error() == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Book not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -85,7 +85,7 @@ func AddBook(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -93,7 +93,11 @@ func AddBook(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		if err.Error() == "Must have ISBN 10 and/or ISBN 13." {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -109,7 +113,7 @@ func EditBook(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -117,11 +121,15 @@ func EditBook(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err == "record not found" {
+		if err.Error() == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Book not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		if err.Error() == "Must have ISBN 10 and/or ISBN 13." {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -139,11 +147,11 @@ func DeleteBook(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err == "record not found" {
+		if err.Error() == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Book not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
