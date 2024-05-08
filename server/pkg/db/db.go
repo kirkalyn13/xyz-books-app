@@ -33,7 +33,7 @@ func CreateTables(db *gorm.DB, tables []interface{}) {
 	err := db.AutoMigrate(tables...)
 
 	if err != nil {
-		log.Fatalf(fmt.Sprintf("DropTables - Migrator :%s", err.Error()))
+		log.Fatalf(fmt.Sprintf("DropTables - Migrator :%s", err))
 	}
 
 	log.Println("Successfully Migrated Tables.")

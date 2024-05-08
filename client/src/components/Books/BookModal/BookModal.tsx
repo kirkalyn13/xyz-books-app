@@ -156,7 +156,7 @@ const BookModal: React.FC<BookModalProps> = ({ title, closeModal }) => {
               placeholder="Image URL..." />
         </div>
         <div className="flex flex-col md:flex-row justify-between my-1">
-          <label className="text-md me-4 flex items-center">Book Name: </label>
+          <label className="text-md me-4 flex items-center">Edition: </label>
           <input
               className="md:w-1/2 w-full my-1 py-1 px-2
               text-sm text-black border rounded-lg 

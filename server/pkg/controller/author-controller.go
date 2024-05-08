@@ -17,7 +17,7 @@ func GetAuthors(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -34,11 +34,11 @@ func GetAuthorByID(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err.Error() == "record not found" {
+		if err == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Author not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -54,7 +54,7 @@ func AddAuthor(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -62,7 +62,7 @@ func AddAuthor(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -78,7 +78,7 @@ func EditAuthor(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -86,11 +86,11 @@ func EditAuthor(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err.Error() == "record not found" {
+		if err == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Author not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
@@ -108,11 +108,11 @@ func DeleteAuthor(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		if err.Error() == "record not found" {
+		if err == "record not found" {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Author not found."})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
