@@ -68,20 +68,24 @@ const Authors: React.FC = () => {
 
   return (
     <section className="w-full h-screen flex flex-col"> 
-        {showAddModal ? <AuthorModal title="Add Author" closeModal={() => closeEditModal()}/> : null}
-        {showEditModal ? <AuthorModal title="Edit Author" closeModal={() => setShowEditModal(false)}/> : null}
-        <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
-        <div className='w-full mt-4 text-3xl flex justify-center'>
-            <SearchBar />
-            <FaPlusSquare 
-              className="text-4xl text-slate-800 hover:bg-sky-300"
-              onClick={() => setShowAddModal(true)}/>
+      <div className='w-full flex justify-center'>
+        <div className="container text-center">
+          {showAddModal ? <AuthorModal title="Add Author" closeModal={() => closeEditModal()}/> : null}
+              {showEditModal ? <AuthorModal title="Edit Author" closeModal={() => setShowEditModal(false)}/> : null}
+              <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
+              <div className='w-full mt-4 text-3xl flex justify-center'>
+                  <SearchBar />
+                  <FaPlusSquare 
+                    className="text-4xl text-slate-800 hover:bg-sky-300"
+                    onClick={() => setShowAddModal(true)}/>
+              </div>
+              <Table 
+                data={authors} 
+                columns={columns} 
+                handleEdit={handleEdit} 
+                deleteItem={handleDelete}/>
         </div>
-        <Table 
-          data={authors} 
-          columns={columns} 
-          handleEdit={handleEdit} 
-          deleteItem={handleDelete}/>
+      </div>
     </section>
   )
 }

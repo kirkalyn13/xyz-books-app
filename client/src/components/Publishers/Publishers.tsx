@@ -66,20 +66,24 @@ const Publishers: React.FC = () => {
 
   return (
     <section className="w-full h-screen flex flex-col">
-        {showAddModal ? <PublisherModal title="Add Publisher" closeModal={() => closeEditModal()}/> : null}
-        {showEditModal ? <PublisherModal title="Edit Publisher" closeModal={() => setShowEditModal(false)}/> : null}
-        <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
-        <div className='w-full mt-4 text-3xl flex justify-center'>
-            <SearchBar />
-            <FaPlusSquare
-              className="text-4xl text-slate-800 hover:text-sky-300"
-              onClick={() => setShowAddModal(true)}/>
+      <div className='w-full flex justify-center'>
+        <div className="container text-center">
+          {showAddModal ? <PublisherModal title="Add Publisher" closeModal={() => closeEditModal()}/> : null}
+            {showEditModal ? <PublisherModal title="Edit Publisher" closeModal={() => setShowEditModal(false)}/> : null}
+            <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
+            <div className='w-full mt-4 text-3xl flex justify-center'>
+                <SearchBar />
+                <FaPlusSquare
+                  className="text-4xl text-slate-800 hover:text-sky-300"
+                  onClick={() => setShowAddModal(true)}/>
+            </div>
+            <Table 
+              data={publishers} 
+              columns={columns} 
+              handleEdit={handleEdit} 
+              deleteItem={handleDelete}/>
         </div>
-        <Table 
-          data={publishers} 
-          columns={columns} 
-          handleEdit={handleEdit} 
-          deleteItem={handleDelete}/>
+      </div>
     </section>
   )
 }
