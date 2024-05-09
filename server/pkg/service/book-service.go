@@ -69,6 +69,8 @@ func AddBook(book model.Book) (model.Book, error) {
 		return model.Book{}, err
 	}
 
+	publisher, _ := repository.GetPublisherByID(strconv.Itoa(int(*book.PublisherID)))
+	result.Publisher = publisher
 	mq.PublishBook(mq.BookQueue, result)
 
 	return result, nil
