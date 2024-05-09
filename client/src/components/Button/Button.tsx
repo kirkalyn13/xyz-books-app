@@ -12,7 +12,7 @@ const Button = ({text,
     color = "bg-amber-500",
     hoverColor = "bg-amber-600",
     handleOnClick,
-    disable = false
+    disable = false,
     }: ButtonProps) => {
   return (
     <button 
