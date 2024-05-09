@@ -8,6 +8,7 @@ import useSearchID from '../../../hooks/useSearchID';
 import { Publisher } from '../../../types/publisher'
 import { Author } from '../../../types/author'
 import Chip from '../../Chip/Chip'
+import { sanitizeData } from '../../../utils/sanitizeData'
 
 interface BookModalProps {
     title: string;
@@ -33,14 +34,16 @@ const BookModal: React.FC<BookModalProps> = ({ title, closeModal }) => {
   const { getSearchID } = useSearchID()
 
   const addBookHandler = (): void => {
+    sanitizeData(book)
     if (!disableSubmit) addBook(book)
         .then(() => setTimeout(() => closeModal(), 500))
     
   }
 
   const editBookHandler = (): void => {
-      if (!disableSubmit) editBook(book.id!, book)
-          .then(() => closeModal())
+    sanitizeData(book)
+    if (!disableSubmit) editBook(book.id!, book)
+        .then(() => closeModal())
   }
 
   const removeAuthor = (id: string) => {

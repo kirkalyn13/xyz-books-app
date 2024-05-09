@@ -3,6 +3,7 @@ import Modal from '../../Modal/Modal'
 import { Publisher } from '../../../types/publisher';
 import { addPublisher, editPublisher, getPublisherByID } from '../../../services/publisherService';
 import useSearchID from '../../../hooks/useSearchID';
+import { sanitizeData } from '../../../utils/sanitizeData';
 
 interface PublisherModalProps {
     title: string;
@@ -14,12 +15,14 @@ const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal }) =>
     const { getSearchID } = useSearchID()
 
     const addPublisherHandler = (): void => {
+        sanitizeData(publisher)
         if (!disableSubmit) addPublisher(publisher)
             .then(() => closeModal())
         
     }
 
     const editPublisherHandler = (): void => {
+        sanitizeData(publisher)
         if (!disableSubmit) editPublisher(publisher.id!, publisher)
             .then(() => closeModal())
     }

@@ -3,6 +3,7 @@ import Modal from '../../Modal/Modal'
 import { addAuthor, editAuthor, getAuthorByID } from '../../../services/authorService'
 import { Author } from '../../../types/author'
 import useSearchID from '../../../hooks/useSearchID'
+import { sanitizeData } from '../../../utils/sanitizeData'
 
 interface AuthorModalProps {
     title: string;
@@ -19,11 +20,13 @@ const AuthorModal: React.FC<AuthorModalProps> = ({ title, closeModal, data }) =>
     const { getSearchID } = useSearchID()
 
     const addAuthorHandler = (): void => {
+        sanitizeData(author)
         if (!disableSubmit) addAuthor(author)
             .then(() => closeModal())
     }
 
     const editAuthorHandler = (): void => {
+        sanitizeData(author)
         if (!disableSubmit) editAuthor(author.id!, author)
             .then(() => closeModal())
     }

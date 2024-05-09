@@ -72,21 +72,25 @@ const Books: React.FC = () => {
   },[searchParams, showAddModal, showEditModal])
   
   return (
-    <section className="w-full h-screen flex flex-col">
-        {showAddModal ? <BookModal title="Add Book" closeModal={() => closeEditModal()}/> : null}
-        {showEditModal ? <BookModal title="Edit Book" closeModal={() => setShowEditModal(false)}/>  : null}
-        <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
-        <div className='w-full mt-4 text-3xl flex justify-center align-center'>
-            <SearchBar placeholder='Enter ISBN13...'/>
-            <FaPlusSquare 
-                className="text-4xl text-slate-800 me-4 hover:text-sky-300"
-                onClick={() => setShowAddModal(true)}/>
+    <section className="w-screen h-screen flex flex-col">
+      <div className='w-full flex justify-center'>
+        <div className="container text-center">
+          {showAddModal ? <BookModal title="Add Book" closeModal={() => closeEditModal()}/> : null}
+            {showEditModal ? <BookModal title="Edit Book" closeModal={() => setShowEditModal(false)}/>  : null}
+            <h2 className="w-full text-zinc-600 text-3xl text-center">{TITLE}</h2>
+            <div className='w-full mt-4 text-3xl flex justify-center align-center'>
+                <SearchBar placeholder='Enter ISBN13...'/>
+                <FaPlusSquare 
+                    className="text-4xl text-slate-800 me-4 hover:text-sky-300"
+                    onClick={() => setShowAddModal(true)}/>
+            </div>
+            <Table 
+              data={books} 
+              columns={columns} 
+              handleEdit={handleEdit}  
+              deleteItem={handleDelete}/>
         </div>
-        <Table 
-          data={books} 
-          columns={columns} 
-          handleEdit={handleEdit}  
-          deleteItem={handleDelete}/>
+      </div>
     </section>
   )
 }
