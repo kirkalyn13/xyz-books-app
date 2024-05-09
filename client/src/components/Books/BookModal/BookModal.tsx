@@ -34,7 +34,7 @@ const BookModal: React.FC<BookModalProps> = ({ title, closeModal }) => {
 
   const addBookHandler = (): void => {
     if (!disableSubmit) addBook(book)
-        .then(() => closeModal())
+        .then(() => setTimeout(() => closeModal(), 500))
     
   }
 
@@ -57,16 +57,22 @@ const BookModal: React.FC<BookModalProps> = ({ title, closeModal }) => {
   let disableSubmit: boolean = book.title === "" ||
     (book.isbn13 === "" && book.isbn10 == "") ||
     book.list_price === 0 ||
-    book.publication_year === 0 
+    book.publication_year === 0 ||
+    book.publication_year === 0 ||
+    book.authors.length === 0
 
   const submitHandler: Function = () => title.toLowerCase().includes("add") ? addBookHandler() : editBookHandler()
 
   useEffect(() => {
       getAuthors("").then((res) => {
-        setAuthors(res.data.authors)
+        setAuthors([{
+          first_name: "",
+          last_name: "",
+          middle_name: ""
+      }, ...res.data.authors])
       })
       getPublishers("").then((res) => {
-        setPublishers(res.data.publishers)
+        setPublishers([{name: ""}, ...res.data.publishers])
       })
       if (title.toLowerCase().includes("edit") && getSearchID() !== null) {
           getBookByID(getSearchID()).then((res) => {
