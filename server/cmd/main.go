@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/kirkalyn13/xyz-books-app/cmd/routes"
-	"github.com/kirkalyn13/xyz-books-app/pkg/db"
+	"github.com/kirkalyn13/xyz-books-app/server/cmd/routes"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/db"
 )
 
 func main() {
