@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"log"
 
-	"github.com/kirkalyn13/xyz-books-app/pkg/model"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/model"
 	"github.com/streadway/amqp"
 )
 

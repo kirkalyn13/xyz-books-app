@@ -4,9 +4,9 @@ import (
 	"errors"
 	"strconv"
 
-	"github.com/kirkalyn13/xyz-books-app/pkg/model"
-	"github.com/kirkalyn13/xyz-books-app/pkg/mq"
-	"github.com/kirkalyn13/xyz-books-app/pkg/repository"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/model"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/mq"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/repository"
 )
 
 // GetBooks fetches the list of Books

@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kirkalyn13/xyz-books-app/pkg/model"
-	"github.com/kirkalyn13/xyz-books-app/pkg/service"
-	"github.com/kirkalyn13/xyz-books-app/pkg/util"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/model"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/service"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/util"
 )
 
 // GetBooks is the controller to fetch the list of Books

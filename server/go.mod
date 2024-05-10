@@ -1,4 +1,4 @@
-module github.com/kirkalyn13/xyz-books-app
+module github.com/kirkalyn13/xyz-books-app/server
 
 go 1.19
 

@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kirkalyn13/xyz-books-app/pkg/model"
-	"github.com/kirkalyn13/xyz-books-app/pkg/service"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/model"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/service"
 )
 
 // GetPublishers is the controller to fetch the list of Publishers
