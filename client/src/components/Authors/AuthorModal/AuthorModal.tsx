@@ -17,18 +17,33 @@ const AuthorModal: React.FC<AuthorModalProps> = ({ title, closeModal, data }) =>
         last_name: "",
         middle_name: ""
     })
+    const [ error, setError ] = useState<string>("")
     const { getSearchID } = useSearchID()
 
     const addAuthorHandler = (): void => {
+        setError("")
         sanitizeData(author)
         if (!disableSubmit) addAuthor(author)
-            .then(() => closeModal())
+            .then((res) => {
+                if (res.response) {
+                    setError(res.response.data.error)
+                } else {
+                    closeModal()
+                }
+            })
     }
 
     const editAuthorHandler = (): void => {
+        setError("")
         sanitizeData(author)
         if (!disableSubmit) editAuthor(author.id!, author)
-            .then(() => closeModal())
+            .then((res) => {
+                if (res.response) {
+                    setError(res.response.data.error)
+                } else {
+                    closeModal()
+                }
+            })
     }
 
     let disableSubmit: boolean = author.first_name === "" || author.last_name === ""
@@ -43,7 +58,7 @@ const AuthorModal: React.FC<AuthorModalProps> = ({ title, closeModal, data }) =>
     },[])
 
     return (
-        <Modal disableSubmit={disableSubmit} title={title} closeModal={closeModal} submit={submitHandler}>
+        <Modal disableSubmit={disableSubmit} title={title} closeModal={closeModal} submit={submitHandler} error={error}>
             <>
             <div className="flex flex-col md:flex-row justify-between my-4">
                 <label className="text-md me-4 flex items-center">First Name: </label>

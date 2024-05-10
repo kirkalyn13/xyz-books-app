@@ -89,6 +89,20 @@ func AddBook(c *gin.Context) {
 		return
 	}
 
+	if book.ISBN13 != "" {
+		if !util.IsValidISBN13(book.ISBN13) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ISBN13."})
+			return
+		}
+	}
+
+	if book.ISBN10 != "" {
+		if !util.IsValidISBN10(book.ISBN10) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ISBN10."})
+			return
+		}
+	}
+
 	result, err := service.AddBook(book)
 
 	if err != nil {

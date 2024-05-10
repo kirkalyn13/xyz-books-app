@@ -12,19 +12,34 @@ interface PublisherModalProps {
 
 const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal }) => {
     const [publisher, setPublisher] = useState<Publisher>({name: ""})
+    const [ error, setError ] = useState<string>("")
     const { getSearchID } = useSearchID()
 
     const addPublisherHandler = (): void => {
+        setError("")
         sanitizeData(publisher)
         if (!disableSubmit) addPublisher(publisher)
-            .then(() => closeModal())
+            .then((res) => {
+                if (res.response) {
+                    setError(res.response.data.error)
+                } else {
+                    closeModal()
+                }
+            })
         
     }
 
     const editPublisherHandler = (): void => {
+        setError("")
         sanitizeData(publisher)
         if (!disableSubmit) editPublisher(publisher.id!, publisher)
-            .then(() => closeModal())
+            .then((res) => {
+                if (res.response) {
+                    setError(res.response.data.error)
+                } else {
+                    closeModal()
+                }
+            })
     }
 
     let disableSubmit: boolean = publisher.name === ""
@@ -39,7 +54,7 @@ const PublisherModal: React.FC<PublisherModalProps> = ({ title, closeModal }) =>
     },[])
 
     return (
-        <Modal disableSubmit={disableSubmit} title={title} closeModal={closeModal} submit={submitHandler}>
+        <Modal disableSubmit={disableSubmit} title={title} closeModal={closeModal} submit={submitHandler} error={error}>
             <div className="flex flex-col md:flex-row justify-between my-4">
                 <label className="text-md me-4 flex items-center">Publisher Name: </label>
                 <input

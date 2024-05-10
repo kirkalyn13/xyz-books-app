@@ -34,7 +34,7 @@ const Table: React.FC<TableProps> = ({ data, columns, handleEdit, deleteItem }) 
   }
   
   return (
-    <div className="overflow-x-auto mx-4">
+    <div className="overflow-x-auto overflow-y-auto mx-4">
       <table className="table-auto w-full border-collapse border border-gray-800">
         <thead>
           <tr className="bg-slate-800 text-white">

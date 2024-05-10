@@ -31,19 +31,33 @@ const BookModal: React.FC<BookModalProps> = ({ title, closeModal }) => {
   const [ selectedAuthor, setSelectedAuthor ] = useState("")
   const [ selectedAuthors, setSelectedAuthors ] = useState<Author[]>([])
   const [ publishers, setPublishers ] = useState<Publisher[]>([])
+  const [ error, setError ] = useState<string>("")
   const { getSearchID } = useSearchID()
 
   const addBookHandler = (): void => {
+    setError("")
     sanitizeData(book)
     if (!disableSubmit) addBook(book)
-        .then(() => setTimeout(() => closeModal(), 500))
-    
+        .then((res) => {
+          if (res.response) {
+            setError(res.response.data.error)
+          } else {
+            setTimeout(() => closeModal(), 500)
+          }
+    })
   }
 
   const editBookHandler = (): void => {
+    setError("")
     sanitizeData(book)
     if (!disableSubmit) editBook(book.id!, book)
-        .then(() => closeModal())
+        .then((res) => {
+          if (res.response) {
+              setError(res.response.data.error)
+          } else {
+              closeModal()
+          }
+      })
   }
 
   const removeAuthor = (id: string) => {
@@ -60,8 +74,8 @@ const BookModal: React.FC<BookModalProps> = ({ title, closeModal }) => {
   let disableSubmit: boolean = book.title === "" ||
     (book.isbn13 === "" && book.isbn10 == "") ||
     book.list_price === 0 ||
-    book.publication_year === 0 ||
-    book.publication_year === 0 ||
+    book.publication_year.toString().length !== 4 ||
+    book.publisher_id === 0 ||
     book.authors.length === 0
 
   const submitHandler: Function = () => title.toLowerCase().includes("add") ? addBookHandler() : editBookHandler()
@@ -96,7 +110,7 @@ const BookModal: React.FC<BookModalProps> = ({ title, closeModal }) => {
   },[selectedAuthors])
 
   return (
-    <Modal disableSubmit={disableSubmit} title={title} closeModal={closeModal} submit={submitHandler}>
+    <Modal disableSubmit={disableSubmit} title={title} closeModal={closeModal} submit={submitHandler} error={error}>
       <>
         <div className="flex flex-col md:flex-row justify-between my-1">
           <label className="text-md me-4 flex items-center">Title: </label>

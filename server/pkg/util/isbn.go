@@ -5,6 +5,7 @@ import (
 	"strconv"
 )
 
+// IsValidISBN10 to check if a string is a valid ISBN-13
 func IsValidISBN13(isbn string) bool {
 	isbn = regexp.MustCompile(`[-]`).ReplaceAllString(isbn, "")
 
@@ -38,4 +39,26 @@ func IsValidISBN13(isbn string) bool {
 	}
 
 	return checkDigit == lastDigit
+}
+
+// IsValidISBN10 to check if a string is a valid ISBN-10
+func IsValidISBN10(isbn string) bool {
+	isbn = regexp.MustCompile(`[-\s]`).ReplaceAllString(isbn, "")
+
+	if len(isbn) != 10 {
+		return false
+	}
+
+	var sum int
+	for i, digit := range isbn {
+		if i == 9 && digit == 'X' {
+			sum += 10 * (10 - i)
+		} else if digit < '0' || digit > '9' {
+			return false
+		} else {
+			sum += int(digit-'0') * (10 - i)
+		}
+	}
+
+	return sum%11 == 0
 }
