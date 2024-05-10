@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/kirkalyn13/xyz-books-app/pkg/db"
-	"github.com/kirkalyn13/xyz-books-app/pkg/model"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/db"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/model"
 )
 
 // GetPublishers fetches the list of Publishers from the database

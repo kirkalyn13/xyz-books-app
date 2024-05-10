@@ -3,7 +3,7 @@ package util_test
 import (
 	"testing"
 
-	"github.com/kirkalyn13/xyz-books-app/pkg/util"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/util"
 )
 
 func TestIsValidISBN13(t *testing.T) {

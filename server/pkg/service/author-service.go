@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/kirkalyn13/xyz-books-app/pkg/model"
-	"github.com/kirkalyn13/xyz-books-app/pkg/repository"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/model"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/repository"
 )
 
 // GetAuthors fetches the list of Authors

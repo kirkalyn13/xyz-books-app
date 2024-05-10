@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/kirkalyn13/xyz-books-app/pkg/controller"
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/controller"
 )
 
 // RegisterRoutes registers the controllers defined
