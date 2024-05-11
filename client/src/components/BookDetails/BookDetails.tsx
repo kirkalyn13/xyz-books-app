@@ -58,6 +58,8 @@ const BookDetails: React.FC = () => {
                     </div>
                     <div className='w-full flex justify-center align-center'>
                         <img 
+                            width="300"
+                            height="500"
                             className='border border-md my-4' 
                             src={!book.image_url ? PLACEHOLDER : book.image_url } 
                             alt="book-image" />
