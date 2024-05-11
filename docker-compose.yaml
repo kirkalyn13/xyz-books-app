@@ -6,9 +6,9 @@ services:
   client:
     build:
       context: ./client
-      dockerfile: client/Dockerfile
+      dockerfile: Dockerfile
     ports:
-      - "5173:5173"
+      - "4173:4173"
     depends_on:
       - server
     networks:
@@ -16,8 +16,8 @@ services:
 
   server:
     build:
-      context: ./server/cmd
-      dockerfile: server/Dockerfile
+      context: ./server
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
