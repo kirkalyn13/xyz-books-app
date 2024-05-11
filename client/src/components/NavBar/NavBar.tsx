@@ -10,15 +10,17 @@ const Header : React.FC = () => {
   return (
     <nav className="w-screen p-4 z-10">
         <div className="container mx-auto flex flex-wrap justify-between items-center">
-            <div className="flex items-center">
-                <img
-                    className="me-4"
-                    src={LOGO_SRC}
-                    width={50}
-                    height={50}
-                    alt="logo"/>
-                <h1 className="text-2xl text-bold text-zinc-600">{TITLE}</h1>
-            </div>
+            <a href="/">
+                <div className="flex items-center">
+                    <img
+                        className="me-4"
+                        src={LOGO_SRC}
+                        width={50}
+                        height={50}
+                        alt="logo"/>
+                    <h1 className="text-2xl text-bold text-zinc-600">{TITLE}</h1>
+                </div>
+            </a>
 
             <div className="md:hidden mt-4">
                 <button 

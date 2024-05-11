@@ -7,15 +7,20 @@ import {
 import Books from './components/Books/Books'
 import Authors from './components/Authors/Authors'
 import Publishers from './components/Publishers/Publishers'
+import BookDetails from './components/BookDetails/BookDetails'
 
 const router = createBrowserRouter([
   {
-      path: "/",
-      element: <Books />,
+    path: "/",
+    element: <Books />,
   },
   {
-      path: "/authors",
-      element: <Authors />,
+    path: "/books/:isbn",
+    element: <BookDetails />,
+  },
+  {
+    path: "/authors",
+    element: <Authors />,
   },
   {
     path: "/publishers",

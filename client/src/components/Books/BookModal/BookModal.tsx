@@ -25,6 +25,7 @@ const BookModal: React.FC<BookModalProps> = ({ title, closeModal }) => {
     image_url: "",
     edition: "",
     publisher_id: 0,
+    publisher: {name: ""},
     authors: []
   })
   const [ authors, setAuthors ] = useState<Author[]>([])

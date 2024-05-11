@@ -26,7 +26,21 @@ const Table: React.FC<TableProps> = ({ data, columns, handleEdit, deleteItem }) 
     )
   }
 
-  const parseRowData = (rowData: any): any => {
+  const getRowData = (accessor: string, rowData: any) => {
+    if (accessor === "title") {
+      return (
+        <a href={`/books/${rowData.isbn13}`}
+          className='underline hover:text-sky-300'>
+          {rowData.title}
+        </a>
+      )
+    } else if (accessor === "actions") {
+      return getActionsRow(rowData.id)
+    }
+    return parseRowData(rowData[accessor])
+  }
+
+  const parseRowData = (rowData: any): string => {
     if (typeof rowData !== 'object') return rowData
     else if (rowData["name"]) return rowData["name"]
     else if (Array.isArray(rowData)) return rowData.map((data: any) => (data["first_name"] + " " + (data["middle_name"] ?? "") + " " + data["last_name"])).join(", ")
@@ -50,7 +64,7 @@ const Table: React.FC<TableProps> = ({ data, columns, handleEdit, deleteItem }) 
             <tr key={row.id}>
               {columnsWithActions(columns).map((column: Column) => (
                 <td key={column.header} className="border border-gray-800 px-4 py-2">
-                  {column.accessor === "actions" ? getActionsRow(row.id) : parseRowData(row[column.accessor])}
+                  {getRowData(column.accessor, row)}
                 </td>
               ))}
             </tr>
