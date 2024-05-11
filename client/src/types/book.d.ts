@@ -1,4 +1,5 @@
 import { Author } from "./author"
+import { Publisher } from "./publisher"
 
 export type Book = {
     id?: string
@@ -10,5 +11,6 @@ export type Book = {
     image_url: string
     edition: string
     publisher_id: number
-    authors: Author[]
+    publisher: Publisher
+    authors?: Author[]
 }

@@ -16,7 +16,7 @@ export const getBooks = async (q: string): Promise<any> => {
 
 export const getBookByISBN13 = async (isbn13: string): Promise<any> => {
     try {
-        return await axios.get(buildUri(getEndpoint("books", "isbn", isbn13)))
+        return await axios.get(buildUri(getEndpoint("books", isbn13, "isbn13")))
     } catch(err) {
         return err
     }
