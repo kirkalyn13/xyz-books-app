@@ -33,4 +33,6 @@ jobs:
           go test ./... -v --count=1
         
       - name: Build Test
-        run: go build cmd/main.go
+        run: |
+          cd ./server
+          go build cmd/main.go
