@@ -1,8 +1,30 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# XYZ Books App Client
 
-Currently, two official plugins are available:
+Frontend for the XYZ Books App CRUD UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Prerequisites
+- Node JS
+- NPM (or Yarn)
+
+## Installation
+
+1. Clone repository
+2. Navigate to `/client`
+3. Run `npm install`
+
+## Build
+
+1. Clone repository
+2. Navigate to `/client`
+3. Run `npm install`
+
+## Deployment
+1. Run `npm run build`
+2. Run `npm run preview`
+3. Access the app via [localhost:4173](http://localhost:4173)
+
+
+## Author
+
+- [Engr. Kirk Alyn Santos](https://github.com/kirkalyn13)
