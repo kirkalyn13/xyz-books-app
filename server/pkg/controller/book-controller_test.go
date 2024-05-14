@@ -10,8 +10,10 @@ import (
 )
 
 var (
+	publisherID = uint(1)
 	invalidBook = model.Book{ISBN13: "123456789"}
 	testBook    = model.Book{
+		ID:              6,
 		Title:           "Test Book",
 		ISBN13:          "9780547928227",
 		ISBN10:          "054792822X",
@@ -19,6 +21,10 @@ var (
 		PublicationYear: 2020,
 		ImageURL:        "",
 		Edition:         "First Edition",
+		PublisherID:     &publisherID,
+		Authors: []*model.Author{
+			{ID: 1},
+		},
 	}
 )
 
@@ -142,15 +148,15 @@ func TestEditBookSuccess(t *testing.T) {
 }
 
 func TestEditBookNotFound(t *testing.T) {
-	// router := router()
+	router := router()
 
-	// reader, _ := structToReader(testBook)
-	// req, err := http.NewRequest(http.MethodPut, "/api/v1/books/12345", reader)
-	// assert.NoError(t, err)
+	reader, _ := structToReader(testBook)
+	req, err := http.NewRequest(http.MethodPut, "/api/v1/books/12345", reader)
+	assert.NoError(t, err)
 
-	// w := httptest.NewRecorder()
-	// router.ServeHTTP(w, req)
-	// assert.Equal(t, http.StatusNotFound, w.Code)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeleteBookSuccess(t *testing.T) {
