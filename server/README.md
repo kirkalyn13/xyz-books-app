@@ -7,10 +7,11 @@ Server for XYZ Books CRUD APIs.
 - Golang
 
 ## Tech Stack
-- Golang
-- Gin Gonic
-- SQLite
-- RabbitMQ
+- **Golang** - Language
+- **Gin Gonic** - Web Framework
+- **SQLite** - Embedded Database
+- **GORM** - ORM Library
+- **RabbitMQ** - Message Queue
 
 ## Installation
 
@@ -21,7 +22,9 @@ Server for XYZ Books CRUD APIs.
 ## Deployment
 
 1. Run `go run cmd/main.go`
-2. Access the APIs via [localhost:8080 ](http://localhost:8080)
+2. Access the APIs via [localhost:8080](http://localhost:8080)
+
+**Note:** The server code already includes a `gorm.db` file with preloaded data. Delete this to have a fresh empty database.
 
 
 ## Author
