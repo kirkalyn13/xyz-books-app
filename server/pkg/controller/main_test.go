@@ -119,3 +119,13 @@ func makeRequest(method, url string, body interface{}) *httptest.ResponseRecorde
 	router().ServeHTTP(writer, request)
 	return writer
 }
+
+func structToReader(data interface{}) (io.Reader, error) {
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
+
+	reader := bytes.NewReader(jsonData)
+	return reader, nil
+}

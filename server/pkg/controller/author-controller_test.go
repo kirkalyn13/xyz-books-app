@@ -21,8 +21,21 @@ func TestGetAuthors(t *testing.T) {
 }
 
 func TestGetAuthorByID(t *testing.T) {
-	_, err := http.NewRequest(http.MethodGet, "/api/v1/authors/1", nil)
+	router := router()
+
+	req, err := http.NewRequest(http.MethodGet, "/api/v1/authors/1", nil)
 	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusOK, w.Code)
+
+	req, err = http.NewRequest(http.MethodGet, "/api/v1/authors/12345", nil)
+	assert.NoError(t, err)
+
+	w = httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestAddAuthor(t *testing.T) {
@@ -31,11 +44,33 @@ func TestAddAuthor(t *testing.T) {
 }
 
 func TestEditAuthor(t *testing.T) {
+	// router := router()
+
 	_, err := http.NewRequest(http.MethodPut, "/api/v1/authors/1", nil)
 	assert.NoError(t, err)
+
+	// req, err = http.NewRequest(http.MethodPut, "/api/v1/authors/12345", nil)
+	// assert.NoError(t, err)
+
+	// w := httptest.NewRecorder()
+	// router.ServeHTTP(w, req)
+	// assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeleteAuthor(t *testing.T) {
-	_, err := http.NewRequest(http.MethodDelete, "/api/v1/authors/1", nil)
+	router := router()
+
+	req, err := http.NewRequest(http.MethodDelete, "/api/v1/authors/1", nil)
 	assert.NoError(t, err)
+
+	// w := httptest.NewRecorder()
+	// router.ServeHTTP(w, req)
+	// assert.Equal(t, http.StatusOK, w.Code)
+
+	req, err = http.NewRequest(http.MethodDelete, "/api/v1/authors/12345", nil)
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
 }

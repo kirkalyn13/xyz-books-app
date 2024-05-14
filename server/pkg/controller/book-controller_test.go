@@ -5,7 +5,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/kirkalyn13/xyz-books-app/server/pkg/model"
 	"github.com/stretchr/testify/assert"
+)
+
+var (
+	invalidBook = model.Book{ISBN13: "123456789"}
 )
 
 func TestGetBooks(t *testing.T) {
@@ -31,9 +36,18 @@ func TestGetBookByISBN13(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	req, err = http.NewRequest(http.MethodGet, "/api/v1/books/isbn13/123456789", nil)
+	assert.NoError(t, err)
+
 	w = httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusBadRequest, w.Code)
+
+	req, err = http.NewRequest(http.MethodGet, "/api/v1/books/isbn13/9780547928227", nil)
+	assert.NoError(t, err)
+
+	w = httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestGetBookByID(t *testing.T) {
@@ -42,16 +56,48 @@ func TestGetBookByID(t *testing.T) {
 }
 
 func TestAddBook(t *testing.T) {
-	_, err := http.NewRequest(http.MethodPost, "/api/v1/books", nil)
+	router := router()
+
+	req, err := http.NewRequest(http.MethodPost, "/api/v1/books", nil)
 	assert.NoError(t, err)
+
+	reader, _ := structToReader(invalidBook)
+	req, err = http.NewRequest(http.MethodPost, "/api/v1/books", reader)
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
 func TestEditBook(t *testing.T) {
+	// router := router()
+
 	_, err := http.NewRequest(http.MethodPut, "/api/v1/books/1", nil)
 	assert.NoError(t, err)
+
+	// req, err = http.NewRequest(http.MethodPut, "/api/v1/books/12345", nil)
+	// assert.NoError(t, err)
+
+	// w := httptest.NewRecorder()
+	// router.ServeHTTP(w, req)
+	// assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeleteBook(t *testing.T) {
-	_, err := http.NewRequest(http.MethodDelete, "/api/v1/books/1", nil)
+	router := router()
+
+	req, err := http.NewRequest(http.MethodDelete, "/api/v1/books/1", nil)
 	assert.NoError(t, err)
+
+	// w := httptest.NewRecorder()
+	// router.ServeHTTP(w, req)
+	// assert.Equal(t, http.StatusOK, w.Code)
+
+	req, err = http.NewRequest(http.MethodDelete, "/api/v1/books/12345", nil)
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
 }
