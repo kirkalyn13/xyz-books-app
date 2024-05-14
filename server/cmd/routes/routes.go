@@ -1,12 +1,25 @@
 package routes
 
 import (
+	"time"
+
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/kirkalyn13/xyz-books-app/server/pkg/controller"
 )
 
-// RegisterRoutes registers the controllers defined
-func RegisterRoutes(r *gin.Engine) {
+// Router returns a configured gin engine with the API routes registered
+func Router() *gin.Engine {
+	r := gin.Default()
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:  []string{"http://localhost:5173", "http://localhost:4173"},
+		AllowMethods:  []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:  []string{"Origin", "Content-Type"},
+		ExposeHeaders: []string{"Content-Length"},
+		MaxAge:        12 * time.Hour,
+	}))
+
 	// GET Requests
 	r.GET("/api/v1/books", controller.GetBooks)
 	r.GET("/api/v1/books/:id", controller.GetBookByID)
@@ -31,4 +44,5 @@ func RegisterRoutes(r *gin.Engine) {
 	r.DELETE("/api/v1/authors/:id", controller.DeleteAuthor)
 	r.DELETE("/api/v1/publishers/:id", controller.DeletePublisher)
 
+	return r
 }
