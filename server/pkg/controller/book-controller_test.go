@@ -22,10 +22,22 @@ var (
 	}
 )
 
-func TestGetBooks(t *testing.T) {
+func TestGetBooksSuccess(t *testing.T) {
 	router := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/books", nil)
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+}
+
+func TestGetBooksFilterSuccess(t *testing.T) {
+	router := router()
+
+	req, err := http.NewRequest(http.MethodGet, "/api/v1/books?q=97816", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()

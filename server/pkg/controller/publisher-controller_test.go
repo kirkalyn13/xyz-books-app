@@ -25,6 +25,18 @@ func TestGetPublishersSuccess(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
+func TestGetPublishersFilterSuccess(t *testing.T) {
+	router := router()
+
+	req, err := http.NewRequest(http.MethodGet, "/api/v1/publishers?q=publisher", nil)
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+}
+
 func TestGetPublisherByIDSuccess(t *testing.T) {
 	router := router()
 

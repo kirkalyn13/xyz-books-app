@@ -17,10 +17,22 @@ var (
 	}
 )
 
-func TestGetAuthors(t *testing.T) {
+func TestGetAuthorsSuccess(t *testing.T) {
 	router := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/authors", nil)
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+}
+
+func TestGetAuthorsFilteredSuccess(t *testing.T) {
+	router := router()
+
+	req, err := http.NewRequest(http.MethodGet, "/api/v1/authors?q=king", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
