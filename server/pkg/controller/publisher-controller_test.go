@@ -10,8 +10,7 @@ import (
 )
 
 var (
-	testPublisher    = model.Publisher{Name: "Test Publisher"}
-	invalidPublisher = model.Publisher{ID: 12345, Name: "Test Publisher"}
+	testPublisher = model.Publisher{Name: "Test Publisher"}
 )
 
 func TestGetPublishers(t *testing.T) {
@@ -70,29 +69,29 @@ func TestEditPublisher(t *testing.T) {
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	// reader, _ = structToReader(invalidPublisher)
-	// req, err = http.NewRequest(http.MethodPut, "/api/v1/publishers/12345", reader)
-	// assert.NoError(t, err)
+	reader, _ = structToReader(testPublisher)
+	req, err = http.NewRequest(http.MethodPut, "/api/v1/publishers/12345", reader)
+	assert.NoError(t, err)
 
-	// w = httptest.NewRecorder()
-	// router.ServeHTTP(w, req)
-	// assert.Equal(t, http.StatusNotFound, w.Code)
+	w = httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeletePublisher(t *testing.T) {
 	router := router()
 
-	req, err := http.NewRequest(http.MethodDelete, "/api/v1/publishers/1", nil)
+	req, err := http.NewRequest(http.MethodDelete, "/api/v1/publishers/4", nil)
 	assert.NoError(t, err)
 
-	// w := httptest.NewRecorder()
-	// router.ServeHTTP(w, req)
-	// assert.Equal(t, http.StatusOK, w.Code)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNoContent, w.Code)
 
 	req, err = http.NewRequest(http.MethodDelete, "/api/v1/publishers/12345", nil)
 	assert.NoError(t, err)
 
-	w := httptest.NewRecorder()
+	w = httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }

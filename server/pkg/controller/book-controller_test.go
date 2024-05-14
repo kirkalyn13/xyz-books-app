@@ -85,34 +85,33 @@ func TestAddBook(t *testing.T) {
 }
 
 func TestEditBook(t *testing.T) {
-	// router := router()
-
-	_, err := http.NewRequest(http.MethodPut, "/api/v1/books/1", nil)
-	assert.NoError(t, err)
-
-	// reader, _ := structToReader(testBook)
-	// req, err = http.NewRequest(http.MethodPut, "/api/v1/books/12345", reader)
-	// assert.NoError(t, err)
-
-	// w := httptest.NewRecorder()
-	// router.ServeHTTP(w, req)
-	// assert.Equal(t, http.StatusNotFound, w.Code)
-}
-
-func TestDeleteBook(t *testing.T) {
 	router := router()
 
-	req, err := http.NewRequest(http.MethodDelete, "/api/v1/books/1", nil)
+	req, err := http.NewRequest(http.MethodPut, "/api/v1/books/1", nil)
 	assert.NoError(t, err)
-
-	// w := httptest.NewRecorder()
-	// router.ServeHTTP(w, req)
-	// assert.Equal(t, http.StatusOK, w.Code)
 
 	req, err = http.NewRequest(http.MethodDelete, "/api/v1/books/12345", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
+}
+
+func TestDeleteBook(t *testing.T) {
+	router := router()
+
+	req, err := http.NewRequest(http.MethodDelete, "/api/v1/books/5", nil)
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNoContent, w.Code)
+
+	req, err = http.NewRequest(http.MethodDelete, "/api/v1/books/12345", nil)
+	assert.NoError(t, err)
+
+	w = httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }
