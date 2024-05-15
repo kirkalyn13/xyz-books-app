@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -36,8 +37,13 @@ func TestGetBooksSuccess(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
-
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	// Must have 5 expected books
+	var results BooksResponse
+	err = json.NewDecoder(w.Body).Decode(&results)
+	assert.NoError(t, err)
+	assert.Equal(t, 5, len(results.Books))
 }
 
 func TestGetBooksFilterSuccess(t *testing.T) {
@@ -48,8 +54,13 @@ func TestGetBooksFilterSuccess(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
-
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	// Must have 3 expected books
+	var results BooksResponse
+	err = json.NewDecoder(w.Body).Decode(&results)
+	assert.NoError(t, err)
+	assert.Equal(t, 3, len(results.Books))
 }
 
 func TestGetBookByISBN13Success(t *testing.T) {
@@ -120,7 +131,7 @@ func TestAddBookInvalidISBN(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
-func TestAddBookNotNoISBN(t *testing.T) {
+func TestAddBookNoISBN(t *testing.T) {
 	router := router()
 
 	testBook.ISBN13 = ""
@@ -168,6 +179,13 @@ func TestDeleteBookSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNoContent, w.Code)
+
+	req, err = http.NewRequest(http.MethodGet, "/api/v1/books/5", nil)
+	assert.NoError(t, err)
+
+	w = httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeleteBookNotFound(t *testing.T) {

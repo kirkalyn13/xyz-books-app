@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -21,8 +22,13 @@ func TestGetPublishersSuccess(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
-
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	// Must have 4 expected publishers
+	var results PublishersResponse
+	err = json.NewDecoder(w.Body).Decode(&results)
+	assert.NoError(t, err)
+	assert.Equal(t, 4, len(results.Publishers))
 }
 
 func TestGetPublishersFilterSuccess(t *testing.T) {
@@ -33,8 +39,13 @@ func TestGetPublishersFilterSuccess(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
-
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	// Must have 1 expected publisher
+	var results PublishersResponse
+	err = json.NewDecoder(w.Body).Decode(&results)
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(results.Publishers))
 }
 
 func TestGetPublisherByIDSuccess(t *testing.T) {
@@ -104,6 +115,13 @@ func TestDeletePublisherSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNoContent, w.Code)
+
+	req, err = http.NewRequest(http.MethodGet, "/api/v1/publishers/4", nil)
+	assert.NoError(t, err)
+
+	w = httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeletePublisherNotFound(t *testing.T) {

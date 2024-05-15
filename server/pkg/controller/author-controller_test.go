@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -25,8 +26,13 @@ func TestGetAuthorsSuccess(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
-
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	// Must have 7 expected authors
+	var results AuthorsResponse
+	err = json.NewDecoder(w.Body).Decode(&results)
+	assert.NoError(t, err)
+	assert.Equal(t, 7, len(results.Authors))
 }
 
 func TestGetAuthorsFilteredSuccess(t *testing.T) {
@@ -37,8 +43,13 @@ func TestGetAuthorsFilteredSuccess(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
-
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	// Must have 1 expected author
+	var results AuthorsResponse
+	err = json.NewDecoder(w.Body).Decode(&results)
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(results.Authors))
 }
 
 func TestGetAuthorByIDSuccess(t *testing.T) {
@@ -108,6 +119,13 @@ func TestDeleteAuthorSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNoContent, w.Code)
+
+	req, err = http.NewRequest(http.MethodGet, "/api/v1/authors/6", nil)
+	assert.NoError(t, err)
+
+	w = httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeleteAuthorNotFound(t *testing.T) {
