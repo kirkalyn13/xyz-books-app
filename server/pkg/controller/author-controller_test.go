@@ -55,12 +55,20 @@ func TestGetAuthorsFilteredSuccess(t *testing.T) {
 func TestGetAuthorByIDSuccess(t *testing.T) {
 	router := router()
 
-	req, err := http.NewRequest(http.MethodGet, "/api/v1/authors/1", nil)
+	req, err := http.NewRequest(http.MethodGet, "/api/v1/authors/5", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	var result AuthorResponse
+	err = json.NewDecoder(w.Body).Decode(&result)
+	assert.NoError(t, err)
+	assert.Equal(t, uint(5), result.Author.ID)
+	assert.Equal(t, "Fannie", result.Author.FirstName)
+	assert.Equal(t, "Peters", result.Author.MiddleName)
+	assert.Equal(t, "Flagg", result.Author.LastName)
 }
 
 func TestGetAuthorByIDNotFound(t *testing.T) {

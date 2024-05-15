@@ -72,6 +72,22 @@ func TestGetBookByISBN13Success(t *testing.T) {
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	var result BookResponse
+	err = json.NewDecoder(w.Body).Decode(&result)
+	assert.NoError(t, err)
+	assert.Equal(t, uint(1), result.Book.ID)
+	assert.Equal(t, "American Elf", result.Book.Title)
+	assert.Equal(t, "9781891830853", result.Book.ISBN13)
+	assert.Equal(t, "1891830856", result.Book.ISBN10)
+	assert.Equal(t, int(1000), int(result.Book.ListPrice))
+	assert.Equal(t, int(2004), int(result.Book.PublicationYear))
+	assert.Equal(t, "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1343244815i/15770036.jpg", result.Book.ImageURL)
+	assert.Equal(t, "Book 2", result.Book.Edition)
+	assert.Equal(t, uint(1), *result.Book.PublisherID)
+	assert.Equal(t, 3, len(result.Book.Authors))
+	assert.Equal(t, uint(1), result.Book.Publisher.ID)
+	assert.Equal(t, "Paste Magazine", result.Book.Publisher.Name)
 }
 
 func TestGetBookByISBN13InvalidISBN13(t *testing.T) {
@@ -105,6 +121,22 @@ func TestGetBookByIDSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	var result BookResponse
+	err = json.NewDecoder(w.Body).Decode(&result)
+	assert.NoError(t, err)
+	assert.Equal(t, uint(1), result.Book.ID)
+	assert.Equal(t, "American Elf", result.Book.Title)
+	assert.Equal(t, "9781891830853", result.Book.ISBN13)
+	assert.Equal(t, "1891830856", result.Book.ISBN10)
+	assert.Equal(t, int(1000), int(result.Book.ListPrice))
+	assert.Equal(t, int(2004), int(result.Book.PublicationYear))
+	assert.Equal(t, "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1343244815i/15770036.jpg", result.Book.ImageURL)
+	assert.Equal(t, "Book 2", result.Book.Edition)
+	assert.Equal(t, uint(1), *result.Book.PublisherID)
+	assert.Equal(t, 3, len(result.Book.Authors))
+	assert.Equal(t, uint(1), result.Book.Publisher.ID)
+	assert.Equal(t, "Paste Magazine", result.Book.Publisher.Name)
 }
 
 func TestAddBookIDSuccess(t *testing.T) {

@@ -57,6 +57,12 @@ func TestGetPublisherByIDSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	var result PublisherResponse
+	err = json.NewDecoder(w.Body).Decode(&result)
+	assert.NoError(t, err)
+	assert.Equal(t, uint(1), result.Publisher.ID)
+	assert.Equal(t, "Paste Magazine", result.Publisher.Name)
 }
 
 func TestGetPublisherByIDNotFound(t *testing.T) {
