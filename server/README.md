@@ -18,11 +18,8 @@ Server for XYZ Books CRUD APIs.
 1. Clone repository
 2. Navigate to `/server`
 3. Run `go mod tidy`
-
-## Deployment
-
-1. Run `go run cmd/main.go`
-2. Access the APIs via [localhost:8080](http://localhost:8080)
+4. Run `go run cmd/main.go`
+5. Access the APIs via [localhost:8080](http://localhost:8080)
 
 **Note:** The server code already includes a `gorm.db` file with preloaded data. Delete this to have a fresh empty database.
 

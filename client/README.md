@@ -20,12 +20,9 @@ Frontend for the XYZ Books App CRUD UI.
 1. Clone repository
 2. Navigate to `/client`
 3. Run `npm install`
-
-## Deployment
-
-1. Run `npm run build`
-2. Run `npm run preview`
-3. Access the app via [localhost:4173](http://localhost:4173)
+4. Run `npm run build`
+5. Run `npm run preview`
+6. Access the app via [localhost:4173](http://localhost:4173)
 
 
 ## Author
