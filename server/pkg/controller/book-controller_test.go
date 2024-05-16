@@ -40,10 +40,10 @@ func TestGetBooksSuccess(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	// Must have 5 expected books
-	var results BooksResponse
-	err = json.NewDecoder(w.Body).Decode(&results)
+	var res model.BooksResponse
+	err = json.NewDecoder(w.Body).Decode(&res)
 	assert.NoError(t, err)
-	assert.Equal(t, 5, len(results.Books))
+	assert.Equal(t, 5, len(res.Books))
 }
 
 func TestGetBooksFilterSuccess(t *testing.T) {
@@ -57,10 +57,10 @@ func TestGetBooksFilterSuccess(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	// Must have 3 expected books
-	var results BooksResponse
-	err = json.NewDecoder(w.Body).Decode(&results)
+	var res model.BooksResponse
+	err = json.NewDecoder(w.Body).Decode(&res)
 	assert.NoError(t, err)
-	assert.Equal(t, 3, len(results.Books))
+	assert.Equal(t, 3, len(res.Books))
 }
 
 func TestGetBookByISBN13Success(t *testing.T) {
@@ -73,21 +73,21 @@ func TestGetBookByISBN13Success(t *testing.T) {
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	var result BookResponse
-	err = json.NewDecoder(w.Body).Decode(&result)
+	var res model.BookResponse
+	err = json.NewDecoder(w.Body).Decode(&res)
 	assert.NoError(t, err)
-	assert.Equal(t, uint(1), result.Book.ID)
-	assert.Equal(t, "American Elf", result.Book.Title)
-	assert.Equal(t, "9781891830853", result.Book.ISBN13)
-	assert.Equal(t, "1891830856", result.Book.ISBN10)
-	assert.Equal(t, int(1000), int(result.Book.ListPrice))
-	assert.Equal(t, int(2004), int(result.Book.PublicationYear))
-	assert.Equal(t, "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1343244815i/15770036.jpg", result.Book.ImageURL)
-	assert.Equal(t, "Book 2", result.Book.Edition)
-	assert.Equal(t, uint(1), *result.Book.PublisherID)
-	assert.Equal(t, 3, len(result.Book.Authors))
-	assert.Equal(t, uint(1), result.Book.Publisher.ID)
-	assert.Equal(t, "Paste Magazine", result.Book.Publisher.Name)
+	assert.Equal(t, uint(1), res.Book.ID)
+	assert.Equal(t, "American Elf", res.Book.Title)
+	assert.Equal(t, "9781891830853", res.Book.ISBN13)
+	assert.Equal(t, "1891830856", res.Book.ISBN10)
+	assert.Equal(t, int(1000), int(res.Book.ListPrice))
+	assert.Equal(t, int(2004), int(res.Book.PublicationYear))
+	assert.Equal(t, "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1343244815i/15770036.jpg", res.Book.ImageURL)
+	assert.Equal(t, "Book 2", res.Book.Edition)
+	assert.Equal(t, uint(1), *res.Book.PublisherID)
+	assert.Equal(t, 3, len(res.Book.Authors))
+	assert.Equal(t, uint(1), res.Book.Publisher.ID)
+	assert.Equal(t, "Paste Magazine", res.Book.Publisher.Name)
 }
 
 func TestGetBookByISBN13InvalidISBN13(t *testing.T) {
@@ -122,21 +122,21 @@ func TestGetBookByIDSuccess(t *testing.T) {
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	var result BookResponse
-	err = json.NewDecoder(w.Body).Decode(&result)
+	var res model.BookResponse
+	err = json.NewDecoder(w.Body).Decode(&res)
 	assert.NoError(t, err)
-	assert.Equal(t, uint(1), result.Book.ID)
-	assert.Equal(t, "American Elf", result.Book.Title)
-	assert.Equal(t, "9781891830853", result.Book.ISBN13)
-	assert.Equal(t, "1891830856", result.Book.ISBN10)
-	assert.Equal(t, int(1000), int(result.Book.ListPrice))
-	assert.Equal(t, int(2004), int(result.Book.PublicationYear))
-	assert.Equal(t, "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1343244815i/15770036.jpg", result.Book.ImageURL)
-	assert.Equal(t, "Book 2", result.Book.Edition)
-	assert.Equal(t, uint(1), *result.Book.PublisherID)
-	assert.Equal(t, 3, len(result.Book.Authors))
-	assert.Equal(t, uint(1), result.Book.Publisher.ID)
-	assert.Equal(t, "Paste Magazine", result.Book.Publisher.Name)
+	assert.Equal(t, uint(1), res.Book.ID)
+	assert.Equal(t, "American Elf", res.Book.Title)
+	assert.Equal(t, "9781891830853", res.Book.ISBN13)
+	assert.Equal(t, "1891830856", res.Book.ISBN10)
+	assert.Equal(t, int(1000), int(res.Book.ListPrice))
+	assert.Equal(t, int(2004), int(res.Book.PublicationYear))
+	assert.Equal(t, "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1343244815i/15770036.jpg", res.Book.ImageURL)
+	assert.Equal(t, "Book 2", res.Book.Edition)
+	assert.Equal(t, uint(1), *res.Book.PublisherID)
+	assert.Equal(t, 3, len(res.Book.Authors))
+	assert.Equal(t, uint(1), res.Book.Publisher.ID)
+	assert.Equal(t, "Paste Magazine", res.Book.Publisher.Name)
 }
 
 func TestAddBookIDSuccess(t *testing.T) {
@@ -144,6 +144,7 @@ func TestAddBookIDSuccess(t *testing.T) {
 
 	// reader, _ := structToReader(testBook)
 	// req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
+	// req.Header.Set("Content-Type", "application/json")
 	// assert.NoError(t, err)
 
 	// w := httptest.NewRecorder()
@@ -164,30 +165,48 @@ func TestAddBookInvalidISBN(t *testing.T) {
 }
 
 func TestAddBookNoISBN(t *testing.T) {
-	router := router()
-
-	testBook.ISBN13 = ""
-	testBook.ISBN10 = ""
-
-	reader, _ := structToReader(testBook)
-	req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
-	assert.NoError(t, err)
-
-	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
-	assert.Equal(t, http.StatusBadRequest, w.Code)
-}
-
-func TestEditBookSuccess(t *testing.T) {
 	// router := router()
 
+	// testBook.ISBN13 = ""
+	// testBook.ISBN10 = ""
+
 	// reader, _ := structToReader(testBook)
-	// req, err := http.NewRequest(http.MethodPut, "/api/v1/books/5", reader)
+	// req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
+	// req.Header.Set("Content-Type", "application/json")
 	// assert.NoError(t, err)
 
 	// w := httptest.NewRecorder()
 	// router.ServeHTTP(w, req)
-	// assert.Equal(t, http.StatusOK, w.Code)
+	// assert.Equal(t, http.StatusBadRequest, w.Code)
+}
+
+func TestEditBookSuccess(t *testing.T) {
+	router := router()
+
+	testBook.ID = 5
+	testBook.ISBN13 = "9781593275846"
+	testBook.ISBN10 = "1593275846"
+
+	reader, _ := structToReader(testBook)
+	req, err := http.NewRequest(http.MethodPut, "/api/v1/books/5", reader)
+	req.Header.Set("Content-Type", "application/json")
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusOK, w.Code)
+
+	var res model.BookResponse
+	err = json.Unmarshal(w.Body.Bytes(), &res)
+	assert.NoError(t, err)
+
+	assert.Equal(t, uint(5), res.Book.ID)
+	assert.Equal(t, testBook.Title, res.Book.Title)
+	assert.Equal(t, testBook.ISBN13, res.Book.ISBN13)
+	assert.Equal(t, testBook.ISBN10, res.Book.ISBN10)
+	assert.Equal(t, testBook.ListPrice, res.Book.ListPrice)
+	assert.Equal(t, testBook.PublicationYear, res.Book.PublicationYear)
+	assert.Equal(t, testBook.Edition, res.Book.Edition)
 }
 
 func TestEditBookNotFound(t *testing.T) {

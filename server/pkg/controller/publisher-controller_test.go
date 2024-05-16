@@ -25,10 +25,10 @@ func TestGetPublishersSuccess(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	// Must have 4 expected publishers
-	var results PublishersResponse
-	err = json.NewDecoder(w.Body).Decode(&results)
+	var res model.PublishersResponse
+	err = json.NewDecoder(w.Body).Decode(&res)
 	assert.NoError(t, err)
-	assert.Equal(t, 4, len(results.Publishers))
+	assert.Equal(t, 4, len(res.Publishers))
 }
 
 func TestGetPublishersFilterSuccess(t *testing.T) {
@@ -42,10 +42,10 @@ func TestGetPublishersFilterSuccess(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	// Must have 1 expected publisher
-	var results PublishersResponse
-	err = json.NewDecoder(w.Body).Decode(&results)
+	var res model.PublishersResponse
+	err = json.NewDecoder(w.Body).Decode(&res)
 	assert.NoError(t, err)
-	assert.Equal(t, 1, len(results.Publishers))
+	assert.Equal(t, 1, len(res.Publishers))
 }
 
 func TestGetPublisherByIDSuccess(t *testing.T) {
@@ -58,11 +58,11 @@ func TestGetPublisherByIDSuccess(t *testing.T) {
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	var result PublisherResponse
-	err = json.NewDecoder(w.Body).Decode(&result)
+	var res model.PublisherResponse
+	err = json.NewDecoder(w.Body).Decode(&res)
 	assert.NoError(t, err)
-	assert.Equal(t, uint(1), result.Publisher.ID)
-	assert.Equal(t, "Paste Magazine", result.Publisher.Name)
+	assert.Equal(t, uint(1), res.Publisher.ID)
+	assert.Equal(t, "Paste Magazine", res.Publisher.Name)
 }
 
 func TestGetPublisherByIDNotFound(t *testing.T) {
@@ -81,23 +81,38 @@ func TestAddPublisherSuccess(t *testing.T) {
 
 	reader, _ := structToReader(testPublisher)
 	req, err := http.NewRequest(http.MethodPost, "/api/v1/publishers", reader)
+	req.Header.Set("Content-Type", "application/json")
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusCreated, w.Code)
+
+	var res model.PublisherResponse
+	err = json.Unmarshal(w.Body.Bytes(), &res)
+	assert.NoError(t, err)
+
+	assert.Equal(t, testPublisher.Name, res.Publisher.Name)
 }
 
 func TestEditPublisherSuccess(t *testing.T) {
 	router := router()
+	testPublisher.Name = "Edited Publisher"
 
 	reader, _ := structToReader(testPublisher)
 	req, err := http.NewRequest(http.MethodPut, "/api/v1/publishers/4", reader)
+	req.Header.Set("Content-Type", "application/json")
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
+
+	var res model.PublisherResponse
+	err = json.Unmarshal(w.Body.Bytes(), &res)
+	assert.NoError(t, err)
+
+	assert.Equal(t, testPublisher.Name, res.Publisher.Name)
 }
 
 func TestEditPublisherNotFound(t *testing.T) {

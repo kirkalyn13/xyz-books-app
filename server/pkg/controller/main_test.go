@@ -11,35 +11,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/kirkalyn13/xyz-books-app/server/pkg/db"
-	"github.com/kirkalyn13/xyz-books-app/server/pkg/model"
 )
 
 var (
 	gormFile   = "gorm.db"
 	testFile   = "gorm-test.db"
 	sourcePath = filepath.Join(".", "test-fixtures", testFile)
-)
-
-// Response types
-type (
-	BooksResponse struct {
-		Books []model.Book `json:"books,omitempty"`
-	}
-	AuthorsResponse struct {
-		Authors []model.Author `json:"authors,omitempty"`
-	}
-	PublishersResponse struct {
-		Publishers []model.Publisher `json:"publishers,omitempty"`
-	}
-	BookResponse struct {
-		Book model.Book `json:"book,omitempty"`
-	}
-	AuthorResponse struct {
-		Author model.Author `json:"author,omitempty"`
-	}
-	PublisherResponse struct {
-		Publisher model.Publisher `json:"publisher,omitempty"`
-	}
 )
 
 // TestMain runs API functional tests main code
