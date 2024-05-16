@@ -6,7 +6,7 @@ import { getBookByISBN13 } from '../../services/bookService'
 import NotFound from '../NotFound/NotFound'
 import { Author } from '../../types/author'
 
-const PLACEHOLDER = "/image-placeholder.svg"
+const PLACEHOLDER = "/image-placeholder.png"
 
 const BookDetails: React.FC = () => {
     const [ book, setBook ] = useState<Book>({

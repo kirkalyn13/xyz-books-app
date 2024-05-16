@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/kirkalyn13/xyz-books-app/server/pkg/util"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestIsValidISBN13(t *testing.T) {
@@ -22,7 +23,7 @@ func TestIsValidISBN13(t *testing.T) {
 
 	for _, test := range tests {
 		if util.IsValidISBN13(test.isbn) != test.valid {
-			t.Errorf("Test Failed: ISBN-13 %s validation failed", test.isbn)
+			assert.Equal(t, test.valid, test.isbn)
 		}
 	}
 }
@@ -43,7 +44,7 @@ func TestIsValidISBN10(t *testing.T) {
 
 	for _, test := range tests {
 		if util.IsValidISBN10(test.isbn) != test.expected {
-			t.Errorf("Test Failed: ISBN-10 %s validation failed", test.isbn)
+			assert.Equal(t, test.expected, test.isbn)
 		}
 	}
 }

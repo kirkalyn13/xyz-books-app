@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"io"
 	"log"
-	"net/http"
-	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"testing"
@@ -21,6 +19,7 @@ var (
 	sourcePath = filepath.Join(".", "test-fixtures", testFile)
 )
 
+// TestMain runs API functional tests main code
 func TestMain(m *testing.M) {
 	gin.SetMode(gin.TestMode)
 	setup()
@@ -30,6 +29,8 @@ func TestMain(m *testing.M) {
 	os.Exit(exitCode)
 }
 
+// router setups router for functional tests
+// Include controller endpoints for API to be tested here
 func router() *gin.Engine {
 	r := gin.Default()
 
@@ -60,6 +61,7 @@ func router() *gin.Engine {
 	return r
 }
 
+// setup setups the database for testing
 func setup() {
 	err := testDatabase()
 
@@ -74,6 +76,7 @@ func setup() {
 	}
 }
 
+// teardown removes test database
 func teardown() {
 	err := os.Remove(gormFile)
 
@@ -82,6 +85,7 @@ func teardown() {
 	}
 }
 
+// testDatabase initializes test database
 func testDatabase() error {
 	if _, err := os.Stat(gormFile); !os.IsNotExist(err) {
 		teardown()
@@ -112,14 +116,7 @@ func testDatabase() error {
 	return nil
 }
 
-func makeRequest(method, url string, body interface{}) *httptest.ResponseRecorder {
-	requestBody, _ := json.Marshal(body)
-	request, _ := http.NewRequest(method, url, bytes.NewBuffer(requestBody))
-	writer := httptest.NewRecorder()
-	router().ServeHTTP(writer, request)
-	return writer
-}
-
+// structToReader converts test data to input io reader for test requests
 func structToReader(data interface{}) (io.Reader, error) {
 	jsonData, err := json.Marshal(data)
 	if err != nil {
