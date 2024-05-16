@@ -19,13 +19,13 @@ var (
 )
 
 func TestGetAuthorsSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/authors", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	// Must have 7 expected authors
@@ -36,13 +36,13 @@ func TestGetAuthorsSuccess(t *testing.T) {
 }
 
 func TestGetAuthorsFilteredSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/authors?q=king", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	// Must have 1 expected author
@@ -53,13 +53,13 @@ func TestGetAuthorsFilteredSuccess(t *testing.T) {
 }
 
 func TestGetAuthorByIDSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/authors/5", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	var res model.AuthorResponse
@@ -72,18 +72,18 @@ func TestGetAuthorByIDSuccess(t *testing.T) {
 }
 
 func TestGetAuthorByIDNotFound(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/authors/12345", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestAddAuthorSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	reader, _ := structToReader(testAuthor)
 	req, err := http.NewRequest(http.MethodPost, "/api/v1/authors", reader)
@@ -91,7 +91,7 @@ func TestAddAuthorSuccess(t *testing.T) {
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusCreated, w.Code)
 
 	var res model.AuthorResponse
@@ -104,7 +104,7 @@ func TestAddAuthorSuccess(t *testing.T) {
 }
 
 func TestEditAuthorSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	reader, _ := structToReader(testAuthor)
 	req, err := http.NewRequest(http.MethodPut, "/api/v1/authors/5", reader)
@@ -112,7 +112,7 @@ func TestEditAuthorSuccess(t *testing.T) {
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	var res model.AuthorResponse
@@ -125,42 +125,42 @@ func TestEditAuthorSuccess(t *testing.T) {
 }
 
 func TestEditAuthorNotFound(t *testing.T) {
-	router := router()
+	r := router()
 
 	reader, _ := structToReader(testAuthor)
 	req, err := http.NewRequest(http.MethodPut, "/api/v1/authors/12345", reader)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeleteAuthorSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodDelete, "/api/v1/authors/6", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNoContent, w.Code)
 
 	req, err = http.NewRequest(http.MethodGet, "/api/v1/authors/6", nil)
 	assert.NoError(t, err)
 
 	w = httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeleteAuthorNotFound(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodDelete, "/api/v1/authors/12345", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }

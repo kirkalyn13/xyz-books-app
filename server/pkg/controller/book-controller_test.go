@@ -30,13 +30,13 @@ var (
 )
 
 func TestGetBooksSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/books", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	// Must have 5 expected books
@@ -47,13 +47,13 @@ func TestGetBooksSuccess(t *testing.T) {
 }
 
 func TestGetBooksFilterSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/books?q=97816", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	// Must have 3 expected books
@@ -64,13 +64,13 @@ func TestGetBooksFilterSuccess(t *testing.T) {
 }
 
 func TestGetBookByISBN13Success(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/books/isbn13/9781891830853", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	var res model.BookResponse
@@ -91,35 +91,35 @@ func TestGetBookByISBN13Success(t *testing.T) {
 }
 
 func TestGetBookByISBN13InvalidISBN13(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/books/isbn13/123456789", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
 func TestGetBookByISBN13NotFound(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/books/isbn13/9780547928227", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestGetBookByIDSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodGet, "/api/v1/books/1", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	var res model.BookResponse
@@ -140,7 +140,7 @@ func TestGetBookByIDSuccess(t *testing.T) {
 }
 
 func TestAddBookIDSuccess(t *testing.T) {
-	// router := router()
+	// r := router()
 
 	// reader, _ := structToReader(testBook)
 	// req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
@@ -148,24 +148,24 @@ func TestAddBookIDSuccess(t *testing.T) {
 	// assert.NoError(t, err)
 
 	// w := httptest.NewRecorder()
-	// router.ServeHTTP(w, req)
+	// r.ServeHTTP(w, req)
 	// assert.Equal(t, http.StatusCreated, w.Code)
 }
 
 func TestAddBookInvalidISBN(t *testing.T) {
-	router := router()
+	r := router()
 
 	reader, _ := structToReader(invalidBook)
 	req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
 func TestAddBookNoISBN(t *testing.T) {
-	// router := router()
+	// r := router()
 
 	// testBook.ISBN13 = ""
 	// testBook.ISBN10 = ""
@@ -176,12 +176,12 @@ func TestAddBookNoISBN(t *testing.T) {
 	// assert.NoError(t, err)
 
 	// w := httptest.NewRecorder()
-	// router.ServeHTTP(w, req)
+	// r.ServeHTTP(w, req)
 	// assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
 func TestEditBookSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	testBook.ID = 5
 	testBook.ISBN13 = "9781593275846"
@@ -193,7 +193,7 @@ func TestEditBookSuccess(t *testing.T) {
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	var res model.BookResponse
@@ -210,42 +210,42 @@ func TestEditBookSuccess(t *testing.T) {
 }
 
 func TestEditBookNotFound(t *testing.T) {
-	router := router()
+	r := router()
 
 	reader, _ := structToReader(testBook)
 	req, err := http.NewRequest(http.MethodPut, "/api/v1/books/12345", reader)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeleteBookSuccess(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodDelete, "/api/v1/books/5", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNoContent, w.Code)
 
 	req, err = http.NewRequest(http.MethodGet, "/api/v1/books/5", nil)
 	assert.NoError(t, err)
 
 	w = httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }
 
 func TestDeleteBookNotFound(t *testing.T) {
-	router := router()
+	r := router()
 
 	req, err := http.NewRequest(http.MethodDelete, "/api/v1/books/12345", nil)
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
+	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }
