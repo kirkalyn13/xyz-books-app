@@ -60,3 +60,15 @@ func PublishBook(queueName string, book model.Book) {
 
 	log.Println("Successfully Published Message to Queue.")
 }
+
+// CheckMQ checks if RabbitMQ is up and running
+func CheckMQ(url string) bool {
+	conn, err := amqp.Dial(url)
+
+	if err != nil {
+		return false
+	}
+	defer conn.Close()
+
+	return true
+}

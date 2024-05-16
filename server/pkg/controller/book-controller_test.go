@@ -140,16 +140,27 @@ func TestGetBookByIDSuccess(t *testing.T) {
 }
 
 func TestAddBookIDSuccess(t *testing.T) {
-	// r := router()
+	r := router()
 
-	// reader, _ := structToReader(testBook)
-	// req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
-	// req.Header.Set("Content-Type", "application/json")
-	// assert.NoError(t, err)
+	reader, _ := structToReader(testBook)
+	req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
+	req.Header.Set("Content-Type", "application/json")
+	assert.NoError(t, err)
 
-	// w := httptest.NewRecorder()
-	// r.ServeHTTP(w, req)
-	// assert.Equal(t, http.StatusCreated, w.Code)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusCreated, w.Code)
+
+	var res model.BookResponse
+	err = json.Unmarshal(w.Body.Bytes(), &res)
+	assert.NoError(t, err)
+
+	assert.Equal(t, testBook.Title, res.Book.Title)
+	assert.Equal(t, testBook.ISBN13, res.Book.ISBN13)
+	assert.Equal(t, testBook.ISBN10, res.Book.ISBN10)
+	assert.Equal(t, testBook.ListPrice, res.Book.ListPrice)
+	assert.Equal(t, testBook.PublicationYear, res.Book.PublicationYear)
+	assert.Equal(t, testBook.Edition, res.Book.Edition)
 }
 
 func TestAddBookInvalidISBN(t *testing.T) {
@@ -165,19 +176,19 @@ func TestAddBookInvalidISBN(t *testing.T) {
 }
 
 func TestAddBookNoISBN(t *testing.T) {
-	// r := router()
+	r := router()
 
-	// testBook.ISBN13 = ""
-	// testBook.ISBN10 = ""
+	testBook.ISBN13 = ""
+	testBook.ISBN10 = ""
 
-	// reader, _ := structToReader(testBook)
-	// req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
-	// req.Header.Set("Content-Type", "application/json")
-	// assert.NoError(t, err)
+	reader, _ := structToReader(testBook)
+	req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
+	req.Header.Set("Content-Type", "application/json")
+	assert.NoError(t, err)
 
-	// w := httptest.NewRecorder()
-	// r.ServeHTTP(w, req)
-	// assert.Equal(t, http.StatusBadRequest, w.Code)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
 func TestEditBookSuccess(t *testing.T) {
