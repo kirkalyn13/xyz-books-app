@@ -171,3 +171,17 @@ func DeleteBook(c *gin.Context) {
 
 	c.Status(http.StatusNoContent)
 }
+
+// GetIncompleteISBNs is the controller to fetch incomplete ISBNs
+func GetIncompleteISBNs(c *gin.Context) {
+	results, err := service.GetIncompleteISBNs()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"books": results,
+	})
+}
