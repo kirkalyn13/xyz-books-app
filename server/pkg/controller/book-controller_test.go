@@ -12,7 +12,6 @@ import (
 
 var (
 	publisherID = uint(1)
-	invalidBook = model.Book{ISBN13: "123456789"}
 	testBook    = model.Book{
 		ID:              6,
 		Title:           "Test Book",
@@ -163,10 +162,24 @@ func TestAddBookIDSuccess(t *testing.T) {
 	assert.Equal(t, testBook.Edition, res.Book.Edition)
 }
 
-func TestAddBookInvalidISBN(t *testing.T) {
+func TestAddBookInvalidISBN13(t *testing.T) {
 	r := router()
+	testBook.ISBN13 = "12345XYZ"
 
-	reader, _ := structToReader(invalidBook)
+	reader, _ := structToReader(testBook)
+	req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+}
+
+func TestAddBookInvalidISBN10(t *testing.T) {
+	r := router()
+	testBook.ISBN10 = "12345XYZ"
+
+	reader, _ := structToReader(testBook)
 	req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
 	assert.NoError(t, err)
 
