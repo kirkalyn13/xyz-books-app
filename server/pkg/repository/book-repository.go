@@ -76,3 +76,14 @@ func DeleteBook(id string) error {
 
 	return nil
 }
+
+// GetIncompleteISBNs fetches for incomplete ISBN data from the database
+func GetIncompleteISBNs() ([]model.Book, error) {
+	var books []model.Book
+
+	if result := db.DB.Preload("Authors").Where("isbn10 = '' OR isbn13 = ''").Find(&books); result.Error != nil {
+		return []model.Book{}, result.Error
+	}
+
+	return books, nil
+}

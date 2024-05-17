@@ -100,3 +100,16 @@ func DeleteBook(id string) error {
 
 	return nil
 }
+
+// GetIncompleteISBNs fetches for incomplete ISBN data
+func GetIncompleteISBNs() ([]model.Book, error) {
+	var books []model.Book
+
+	books, err := repository.GetIncompleteISBNs()
+
+	if err != nil {
+		return []model.Book{}, err
+	}
+
+	return books, nil
+}

@@ -38,6 +38,7 @@ func router() *gin.Engine {
 	r.GET("/api/v1/books", GetBooks)
 	r.GET("/api/v1/books/:id", GetBookByID)
 	r.GET("/api/v1/books/isbn13/:isbn13", GetBookByISBN13)
+	r.GET("/api/v1/books/isbn/incomplete", GetIncompleteISBNs)
 	r.GET("/api/v1/authors", GetAuthors)
 	r.GET("/api/v1/authors/:id", GetAuthorByID)
 	r.GET("/api/v1/publishers", GetPublishers)

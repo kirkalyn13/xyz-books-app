@@ -260,3 +260,35 @@ func TestDeleteBookNotFound(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusNotFound, w.Code)
 }
+
+func TestGetIncompleteISBNsSuccess(t *testing.T) {
+	r := router()
+	testBook.ISBN13 = ""
+
+	reader, _ := structToReader(testBook)
+	req, err := http.NewRequest(http.MethodPost, "/api/v1/books", reader)
+	assert.NoError(t, err)
+
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	req, err = http.NewRequest(http.MethodGet, "/api/v1/books/isbn/incomplete", nil)
+	assert.NoError(t, err)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusOK, w.Code)
+
+	var res model.BooksResponse
+	err = json.Unmarshal(w.Body.Bytes(), &res)
+	assert.NoError(t, err)
+
+	assert.Equal(t, 1, len(res.Books))
+	assert.Equal(t, testBook.Title, res.Books[0].Title)
+	assert.Equal(t, testBook.ISBN13, res.Books[0].ISBN13)
+	assert.Equal(t, testBook.ISBN10, res.Books[0].ISBN10)
+	assert.Equal(t, testBook.ListPrice, res.Books[0].ListPrice)
+	assert.Equal(t, testBook.PublicationYear, res.Books[0].PublicationYear)
+	assert.Equal(t, testBook.Edition, res.Books[0].Edition)
+}
