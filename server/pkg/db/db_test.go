@@ -9,9 +9,12 @@ import (
 )
 
 func TestLoadDatabase(t *testing.T) {
-	err := os.Remove(filepath.Join(".", "gorm.db"))
-	assert.NoError(t, err)
+	gormFile := filepath.Join(".", "gorm.db")
 
-	err = LoadDatabase()
+	if _, err := os.Stat(gormFile); os.IsNotExist(err) {
+		os.Remove(gormFile)
+	}
+
+	err := LoadDatabase()
 	assert.NoError(t, err)
 }
