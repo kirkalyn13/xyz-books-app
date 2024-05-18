@@ -19,7 +19,7 @@ var (
 		ISBN10:          "054792822X",
 		ListPrice:       1137,
 		PublicationYear: 2020,
-		ImageURL:        "",
+		ImageURL:        "https://upload.wikimedia.org/wikipedia/en/2/2b/Avengers_%28Marvel_Comics%29_vol_3_num_38.jpg",
 		Edition:         "First Edition",
 		PublisherID:     &publisherID,
 		Authors: []*model.Author{
