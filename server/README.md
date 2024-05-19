@@ -21,7 +21,9 @@ Server for XYZ Books CRUD APIs.
 4. Run `go run cmd/main.go`
 5. Access the APIs via [localhost:8080](http://localhost:8080)
 
-**Note:** The server code already includes a `gorm.db` file with preloaded data. Delete this to have a fresh empty database.
+**Note:** 
+- The server code already includes a `gorm.db` file with preloaded data. Delete this to have a fresh empty database.
+- Rabbit MQ is configured to work when the server is ran via Docker.
 
 
 ## Author
