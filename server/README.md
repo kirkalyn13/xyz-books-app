@@ -7,7 +7,7 @@ Server for XYZ Books CRUD APIs.
 - Golang
 
 ## Tech Stack
-- **Golang** - Language
+- **Golang 1.22** - Language
 - **Gin Gonic** - Web Framework
 - **SQLite** - Embedded Database
 - **GORM** - ORM Library
