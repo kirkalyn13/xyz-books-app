@@ -62,6 +62,12 @@ Server for XYZ Books CRUD APIs.
 | :-------- | :------- | :-------------------------------- |
 | `isbn13`      | `string` | **Required**. ISBN 13 of the book to fetch |
 
+#### Get books with incomplete ISBNs
+
+```http
+  GET /api/v1/books/isbn/incomplete
+```
+
 #### Get all authors
 
 ```http
